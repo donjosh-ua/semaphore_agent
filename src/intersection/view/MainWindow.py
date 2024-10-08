@@ -4,13 +4,12 @@ from PIL import Image, ImageTk
 
 """
 Valores de referencia
-#! Tamaño de los semáforos: 46, 90
+#! Tamaño de los semáforos: 45, 90
 #! Tamaño del fondo: 1348, 793 -> 800x800
-#! Tamano de los buses: 
+#! Tamano de los buses: 500, 226 -> 180, 81
 #! Posición del semáforo inferior: 720, 450
 #! Posición del semáforo izquierdo: 0, 0
 """
-
 
 class MainWindow:
     #* path de las imágenes
@@ -18,30 +17,35 @@ class MainWindow:
     path_sem_rojo = "src/intersection/assets/rojo.png"
     path_sem_verde = "src/intersection/assets/verde.png"
     path_sem_amarillo = "src/intersection/assets/amarillo.png"
+    path_bus_amarillo = "src/intersection/assets/bus_amarillo.png"
+    path_bus_morado = "src/intersection/assets/bus_morado.png"
+    path_bus_gris = "src/intersection/assets/bus_gris.png"
 
     #* size de las imágenes
     size_fondo = (800, 800)
-    size_sem = (46, 90)
+    size_sem = (45, 90)
     size_ventana = (800, 800)
+    size_bus = (180, 81)
 
     #* posición inicial de las imágenes
     p0_sem_inferior = (720, 450)
     p0_sem_izquierda = (0, 0)
-
+    pos_bus_amarillo = (0, 100)
+    pos_bus_morado = (100, 100)
+    pos_bus_gris = (100, 200)
 
     def cargar_imagen(path, size):
         imagen = Image.open(path)
         imagen = imagen.resize(size)
         return ImageTk.PhotoImage(imagen)
-        pass
         
     #TODO: Crear ventanas y lienzos
-    # Crear la ventana principal
+    #* Crear la ventana principal
     ventana = tk.Tk()
     ventana.title("Sistemas Multiagentes")
     ventana.geometry(f"{size_ventana[0]}x{size_ventana[1]}")
 
-    # Crear el lienzo (Canvas)
+    #* Crear el lienzo (Canvas)
     canvas = tk.Canvas(ventana, width=size_ventana[0], height=size_ventana[1])
     canvas.pack()
 
@@ -58,13 +62,27 @@ class MainWindow:
     #* Imagen del semaforo_verde
     semaforo_verde_tk = cargar_imagen(path_sem_verde, size_sem)
 
+    #* Imagen del bus_amarillo
+    bus_amarillo_tk = cargar_imagen(path_bus_amarillo, size_bus)
+
+    #* Imagen del bus_verde
+    bus_morado_tk = cargar_imagen(path_bus_morado, size_bus)
+
+    #* Imagen del bus_rojo
+    bus_gris_tk = cargar_imagen(path_bus_gris, size_bus)
+
     #TODO: Mostrar imágenes
     #* Mostrar la imagen de fondo, usa como referencia el origen
     canvas.create_image(0, 0, anchor="nw", image=fondo_tk)
 
-    # Mostrar la imagen inicial y guardar la referencia del objeto
+    #* Mostrar semáforos
     semaforo_inferior = canvas.create_image(p0_sem_inferior[0], p0_sem_inferior[1], anchor="nw", image=semaforo_rojo_tk)
     semaforo_izquierdo = canvas.create_image(p0_sem_izquierda[0], p0_sem_izquierda[1], anchor="nw", image=semaforo_verde_tk)
+
+    #* Mostrar buses
+    bus_amarillo = canvas.create_image(pos_bus_amarillo[0], pos_bus_amarillo[1], anchor="nw", image=bus_amarillo_tk)
+    bus_morado = canvas.create_image(pos_bus_morado[0], pos_bus_morado[1], anchor="nw", image=bus_morado_tk)
+    bus_gris = canvas.create_image(pos_bus_gris[0], pos_bus_gris[1], anchor="nw", image=bus_gris_tk)
 
     #TODO: Funciones de movimiento de las imágenes
     def mover_imagen(self, imagen, dx, dy):
