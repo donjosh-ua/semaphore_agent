@@ -1,1 +1,1 @@
-from .ventana import Ventana
+from .view import Ventana
