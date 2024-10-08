@@ -11,8 +11,9 @@ class Ventana:
     path_sem_amarillo = "src/intersection/assets/amarillo.png"
 
     #* size de las imágenes
-    size_fondo = (1348, 793)
+    size_fondo = (800, 800)
     size_sem = (46, 90)
+    size_ventana = (800, 800)
 
     #* posición inicial de las imágenes
     p0_sem_inferior = (720, 450)
@@ -30,7 +31,7 @@ class Ventana:
     ventana.geometry("1348x793")
 
     # Crear el lienzo (Canvas)
-    canvas = tk.Canvas(ventana, width=1348, height=793)
+    canvas = tk.Canvas(ventana, width=size_ventana[0], height=size_ventana[1])
     canvas.pack()
 
     #TODO: Cargar las imágenes
