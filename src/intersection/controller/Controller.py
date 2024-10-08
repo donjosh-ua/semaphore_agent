@@ -1,7 +1,7 @@
-from ..view.view import Ventana
+from ..view.MainWindow import MainWindow
 
-class Controlador:
-    view = Ventana()
+class Controller:
+    view = MainWindow()
 
     """Se debe pasar que imagen se desea que se mueva, una velocidad horizontal y una velocidad vertical """
     view.mover_imagen(view.semaforo_inferior, 5, 5)

@@ -12,7 +12,7 @@ Valores de referencia
 """
 
 
-class Ventana:
+class MainWindow:
     #* path de las imágenes
     path_fondo = "src/intersection/assets/fondo.png"
     path_sem_rojo = "src/intersection/assets/rojo.png"

@@ -1,1 +1,1 @@
-from .view import Ventana
+from .MainWindow import MainWindow

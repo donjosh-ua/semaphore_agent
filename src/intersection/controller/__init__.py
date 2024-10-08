@@ -1,1 +1,1 @@
-from .controller import Controlador
+from .Controller import Controller
