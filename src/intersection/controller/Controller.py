@@ -28,8 +28,21 @@ class Controller:
         Controller.agent.add_traffic_light(tl1)
         Controller.agent.add_traffic_light(tl2)
 
-        Controller.view.mover_imagen(Controller.view.semaforo_inferior, 5, 5)
+        total_seconds = 0
+        while True:
 
-        for i in range(0, 10):
-            Controller.change_color(self=Controller, imagen_semaforo=Controller.view.semaforo_inferior, semaforo=tl1)
+            if(total_seconds == 21):
+                total_seconds = 0
+
+            timer = datetime.timedelta(seconds = total_seconds)
+
+            if tl1.active_color == "green":
+                Controller.view.mover_imagen(Controller.view.bus_amarillo, 20, 0)
+
+            if total_seconds == 7: # el cambio se hace cada 7 segundos
+                Controller.change_color(self=Controller, imagen_semaforo=Controller.view.semaforo_inferior, semaforo=tl1)
+        
+
+            print(timer, end="\r")
             time.sleep(1)
+            total_seconds += 1

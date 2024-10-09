@@ -30,7 +30,7 @@ class MainWindow:
     #* posición inicial de las imágenes
     p0_sem_inferior = (720, 450)
     p0_sem_izquierda = (0, 0)
-    pos_bus_amarillo = (0, 100)
+    pos_bus_amarillo = (34, 341)
     pos_bus_morado = (100, 100)
     pos_bus_gris = (100, 200)
 
@@ -101,7 +101,7 @@ class MainWindow:
         self.canvas.move(imagen, dx, dy)
 
         # Llamar a la función nuevamente después de 100 ms
-        self.ventana.after(100, self.mover_imagen, imagen, dx, dy)
+        #self.ventana.after(100, self.mover_imagen, imagen, dx, dy)
 
     # Funciones para mover la imagen y luego cambiarla
     def mover_arriba(self, event):
