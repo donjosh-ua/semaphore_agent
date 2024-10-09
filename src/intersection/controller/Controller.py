@@ -11,6 +11,14 @@ class Controller:
     def __init__(self):
         Controller.view.ventana.mainloop()
 
+    def change_color(self, imagen_semaforo, semaforo:TrafficLight):
+
+        #* Cambia el valor de la variable active_color
+        semaforo.change_color()
+
+        #* Cambia la imagen según el valor que se encuentra en el atributo active_color
+        self.view.cambiar_imagen(imagen_semaforo, semaforo.active_color)
+
     @staticmethod
     def run():
 
@@ -20,20 +28,8 @@ class Controller:
         Controller.agent.add_traffic_light(tl1)
         Controller.agent.add_traffic_light(tl2)
 
-        total_seconds = 5
+        Controller.view.mover_imagen(Controller.view.semaforo_inferior, 5, 5)
 
-        while True:
-
-            if(total_seconds == 0):
-                total_seconds = 5
-
-            timer = datetime.timedelta(seconds = total_seconds)
-
-            print(timer, end="\r")
-    
+        for i in range(0, 10):
+            Controller.change_color(self=Controller, imagen_semaforo=Controller.view.semaforo_inferior, semaforo=tl1)
             time.sleep(1)
-
-            total_seconds -= 1
-
-            """Se debe pasar que imagen se desea que se mueva, una velocidad horizontal y una velocidad vertical """
-            Controller.view.mover_imagen(Controller.view.semaforo_inferior, 5, 5)

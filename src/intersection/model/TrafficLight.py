@@ -2,7 +2,7 @@ class TrafficLight:
 
     __colors = ['green', 'yellow', 'red']
     #color = __colors[0]
-
+ 
     def __init__(self):
         self.active_color = self.__colors[0]
 
@@ -15,3 +15,6 @@ class TrafficLight:
         except Exception as e:
             #print(e)
             self.active_color = self.__colors[0]
+
+    def get_path_image(self):
+        return f"src/intersection/assets/{self.active_color}.png"

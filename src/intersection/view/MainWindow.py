@@ -14,9 +14,9 @@ Valores de referencia
 class MainWindow:
     #* path de las imágenes
     path_fondo = "src/intersection/assets/fondo.png"
-    path_sem_rojo = "src/intersection/assets/rojo.png"
-    path_sem_verde = "src/intersection/assets/verde.png"
-    path_sem_amarillo = "src/intersection/assets/amarillo.png"
+    path_sem_rojo = "src/intersection/assets/red.png"
+    path_sem_verde = "src/intersection/assets/green.png"
+    path_sem_amarillo = "src/intersection/assets/yellow.png"
     path_bus_amarillo = "src/intersection/assets/bus_amarillo.png"
     path_bus_morado = "src/intersection/assets/bus_morado.png"
     path_bus_gris = "src/intersection/assets/bus_gris.png"
@@ -121,7 +121,17 @@ class MainWindow:
         self.cambiar_imagen()
 
     # Función para cambiar la imagen
-    def cambiar_imagen(self, imagen, nueva_imagen):
+    def cambiar_imagen(self, imagen, color):
+        if color == "red":
+            nueva_imagen = self.semaforo_rojo_tk
+        
+        elif color == "yellow":
+            nueva_imagen = self.semaforo_amarillo_tk
+        
+        elif color == "green":
+            nueva_imagen = self.semaforo_verde_tk
+
+        # imagen se refiere a las variables tipo semaforo_inferior = canvas.create_image(p0_sem_inferior[0], p0_sem_inferior[1], anchor="nw", image=semaforo_rojo_tk)
         self.canvas.itemconfig(imagen, image=nueva_imagen)
         
     # Vincular las teclas de flechas con las funciones de movimiento
