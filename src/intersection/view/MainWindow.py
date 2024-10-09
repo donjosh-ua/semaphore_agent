@@ -121,9 +121,9 @@ class MainWindow:
         self.cambiar_imagen()
 
     # Función para cambiar la imagen
-    def cambiar_imagen(self):
-        self.canvas.itemconfig(self.semaforo_inferior, image=self.semaforo_verde_tk)
-        pass
+    def cambiar_imagen(self, imagen, nueva_imagen):
+        self.canvas.itemconfig(imagen, image=nueva_imagen)
+        
     # Vincular las teclas de flechas con las funciones de movimiento
     ventana.bind("<Up>", mover_arriba)
     ventana.bind("<Down>", mover_abajo)
