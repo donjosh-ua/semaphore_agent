@@ -28,15 +28,18 @@ class MainWindow:
     size_bus = (180, 81)
 
     #* posición inicial de las imágenes
-    p0_sem_inferior = (720, 450)
-    p0_sem_izquierda = (0, 0)
+    p0_sem_inferior = (416, 438)
+    p0_sem_izquierda = (260, 330)
     pos_bus_amarillo = (34, 341)
     pos_bus_morado = (100, 100)
     pos_bus_gris = (100, 200)
 
-    def cargar_imagen(path, size):
+    @staticmethod
+    def cargar_imagen(path, size, rotacion=0):
         imagen = Image.open(path)
         imagen = imagen.resize(size)
+        if rotacion != 0:
+            imagen = imagen.rotate(rotacion, expand=True)
         return ImageTk.PhotoImage(imagen)
         
     #TODO: Crear ventanas y lienzos
@@ -51,25 +54,27 @@ class MainWindow:
 
     #TODO: Cargar las imágenes
     #* Imagen del fondo
-    fondo_tk = cargar_imagen(path_fondo, size_fondo)
+    fondo_tk = cargar_imagen(path=path_fondo, size=size_fondo)
 
-    #* Imagen del semaforo_rojo
+    #* Imagenes de los semaforos sin rotar
     semaforo_rojo_tk = cargar_imagen(path_sem_rojo, size_sem)
-
-    #* Imagen del semaforo_amarillo
     semaforo_amarillo_tk = cargar_imagen(path_sem_amarillo, size_sem)
-
-    #* Imagen del semaforo_verde
     semaforo_verde_tk = cargar_imagen(path_sem_verde, size_sem)
 
-    #* Imagen del bus_amarillo
+    #* Imagenes de los semaforos rotados 90°
+    semaforo_rojo_tk_90 = cargar_imagen(path_sem_rojo, size_sem, rotacion=90)
+    semaforo_amarillo_tk_90 = cargar_imagen(path_sem_amarillo, size_sem, rotacion=90)
+    semaforo_verde_tk_90 = cargar_imagen(path_sem_verde, size_sem, rotacion=90)
+
+    #* Imagenes de los buses sin rotar
     bus_amarillo_tk = cargar_imagen(path_bus_amarillo, size_bus)
-
-    #* Imagen del bus_verde
     bus_morado_tk = cargar_imagen(path_bus_morado, size_bus)
-
-    #* Imagen del bus_rojo
     bus_gris_tk = cargar_imagen(path_bus_gris, size_bus)
+
+    #* Imagenes de los buses rotados 270°
+    bus_amarillo_tk_270 = cargar_imagen(path_bus_amarillo, size_bus, rotacion=90)
+    bus_morado_tk_270 = cargar_imagen(path_bus_morado, size_bus, rotacion=90)
+    bus_gris_tk_270 = cargar_imagen(path_bus_gris, size_bus, rotacion=90)
 
     #TODO: Mostrar imágenes
     #* Mostrar la imagen de fondo, usa como referencia el origen
@@ -94,8 +99,12 @@ class MainWindow:
         # Verificar los límites de la ventana (rebote)
         if x2 >= self.size_ventana[0] or x1 <= 0:
             dx = -dx # Cambiar la dirección en el eje x
+            self.canvas.delete(imagen)
+
+
         if y2 >= self.size_ventana[1] or y1 <= 0:
             dy = -dy # Cambiar la dirección en el eje y
+            self.canvas.delete(imagen)
 
         # Mover la imagen
         self.canvas.move(imagen, dx, dy)
@@ -121,15 +130,32 @@ class MainWindow:
         self.cambiar_imagen()
 
     # Función para cambiar la imagen
-    def cambiar_imagen(self, imagen, color):
-        if color == "red":
+    def cambiar_imagen(self, imagen, color, rotacion=0):
+        #print("Se ha cambiado de imagen")
+        nueva_imagen = None
+        if color == "red" and rotacion ==0:
+            print("Se ha cambiado a rojo")
             nueva_imagen = self.semaforo_rojo_tk
         
-        elif color == "yellow":
+        elif color == "yellow" and rotacion ==0:
+            print("Se ha cambiado a amarillo")
             nueva_imagen = self.semaforo_amarillo_tk
         
-        elif color == "green":
+        elif color == "green" and rotacion ==0:
+            print("Se ha cambiado a verde")
             nueva_imagen = self.semaforo_verde_tk
+
+        if color == "red" and rotacion != 0:
+            print("Se ha cambiado a rojo")
+            nueva_imagen = self.semaforo_rojo_tk_90
+        
+        elif color == "yellow" and rotacion != 0:
+            print("Se ha cambiado a amarillo")
+            nueva_imagen = self.semaforo_amarillo_tk_90
+        
+        elif color == "green" and rotacion != 0:
+            print("Se ha cambiado a verde")
+            nueva_imagen = self.semaforo_verde_tk_90
 
         # imagen se refiere a las variables tipo semaforo_inferior = canvas.create_image(p0_sem_inferior[0], p0_sem_inferior[1], anchor="nw", image=semaforo_rojo_tk)
         self.canvas.itemconfig(imagen, image=nueva_imagen)
