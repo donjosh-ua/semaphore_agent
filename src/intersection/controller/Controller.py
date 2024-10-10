@@ -38,9 +38,9 @@ class Controller:
             timer = datetime.timedelta(seconds = total_seconds)
 
             if tl2.active_color == "green": # movimiento de los buses según los semáforos
-                Controller.view.mover_imagen(Controller.view.bus_amarillo, 30, 0)
+                Controller.view.mover_imagen(Controller.view.bus_amarillo, 100, 0)
 
-            if total_seconds % 7 == 0: # el cambio se hace cada 7 segundos
+            if total_seconds % 3 == 0: # el cambio se hace cada 7 segundos
                 Controller.change_color(self=Controller, imagen_semaforo=Controller.view.semaforo_inferior, semaforo=tl1)
                 Controller.change_color(self=Controller, imagen_semaforo=Controller.view.semaforo_izquierdo, semaforo=tl2, rotacion=90)
             
