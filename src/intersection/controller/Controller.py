@@ -1,7 +1,9 @@
 from src.intersection.model.TrafficLight import TrafficLight
 from src.agent.model.Agent import Agent
 from ..view.MainWindow import MainWindow
-import datetime, time
+import resources.constants as const
+import time
+
 
 class Controller:
 
@@ -14,7 +16,7 @@ class Controller:
     def change_color(self, imagen_semaforo, semaforo:TrafficLight, rotacion=0):
 
         #* Cambia el valor de la variable active_color
-        semaforo.change_color()
+        # semaforo.change_color()
 
         #* Cambia la imagen según el valor que se encuentra en el atributo active_color
         self.view.cambiar_imagen(imagen_semaforo, semaforo.active_color, rotacion)
@@ -22,30 +24,23 @@ class Controller:
     @staticmethod
     def run():
 
-        tl1 = TrafficLight()
-        tl2 = TrafficLight()
+        tl_ver = TrafficLight()
+        tl_hor = TrafficLight()
 
-        Controller.agent.add_traffic_light(tl1)
-        Controller.agent.add_traffic_light(tl2)
-        
-        tl2.change_color()
+        Controller.agent.set_traffic_lights(tl_ver, tl_hor)
+        tl_hor.change_color()
         total_seconds = 0
+
         while True:
 
-            if(total_seconds == 21):
+            if(total_seconds >= const.RED_TIME):
                 total_seconds = 0
 
-            timer = datetime.timedelta(seconds = total_seconds)
+            # Falta programar los movimientos del bus nada mas
 
-            if tl2.active_color == "green": # movimiento de los buses según los semáforos
-                Controller.view.mover_imagen(Controller.view.bus_amarillo, 30, 0)
+            if Controller.agent.update_state(total_seconds):
+                Controller.change_color(Controller, Controller.view.semaforo_inferior, tl_ver, 0)
+                Controller.change_color(Controller, Controller.view.semaforo_izquierdo, tl_hor, 90)
 
-            if total_seconds % 7 == 0: # el cambio se hace cada 7 segundos
-                Controller.change_color(self=Controller, imagen_semaforo=Controller.view.semaforo_inferior, semaforo=tl1)
-                Controller.change_color(self=Controller, imagen_semaforo=Controller.view.semaforo_izquierdo, semaforo=tl2, rotacion=90)
-            
-        
-
-            print(timer, end="\r")
-            time.sleep(1)
-            total_seconds += 1
+            time.sleep(const.FRAME_TIME)
+            total_seconds += const.FRAME_TIME

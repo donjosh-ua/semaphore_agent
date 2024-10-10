@@ -62,9 +62,9 @@ class MainWindow:
     semaforo_verde_tk = cargar_imagen(path_sem_verde, size_sem)
 
     #* Imagenes de los semaforos rotados 90°
-    semaforo_rojo_tk_90 = cargar_imagen(path_sem_rojo, size_sem, rotacion=90)
-    semaforo_amarillo_tk_90 = cargar_imagen(path_sem_amarillo, size_sem, rotacion=90)
-    semaforo_verde_tk_90 = cargar_imagen(path_sem_verde, size_sem, rotacion=90)
+    semaforo_rojo_tk_90 = cargar_imagen(path_sem_rojo, size_sem, rotacion=270)
+    semaforo_amarillo_tk_90 = cargar_imagen(path_sem_amarillo, size_sem, rotacion=270)
+    semaforo_verde_tk_90 = cargar_imagen(path_sem_verde, size_sem, rotacion=270)
 
     #* Imagenes de los buses sin rotar
     bus_amarillo_tk = cargar_imagen(path_bus_amarillo, size_bus)

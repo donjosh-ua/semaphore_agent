@@ -1,5 +1,5 @@
 from src.intersection.controller.Controller import Controller
-import threading
+import threading    
 from src.intersection.view.MainWindow import MainWindow
 
 
@@ -11,9 +11,10 @@ con vertical slicing. Cada slice es un módulo que contiene los tres componentes
 def threadmain():
     Controller.run()
 
-
 if __name__ == '__main__':
+    
     thread = threading.Thread(target=threadmain,)
     thread.start()
+    
     Controller()
     
