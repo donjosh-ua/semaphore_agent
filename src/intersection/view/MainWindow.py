@@ -112,6 +112,7 @@ class MainWindow:
         # Llamar a la función nuevamente después de 100 ms
         #self.ventana.after(100, self.mover_imagen, imagen, dx, dy)
 
+    """Eventos de teclado"""
     # Funciones para mover la imagen y luego cambiarla
     def mover_arriba(self, event):
         self.canvas.move(self.semaforo_inferior, 0, -10)
