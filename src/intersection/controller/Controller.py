@@ -15,18 +15,12 @@ class Controller:
         Controller.view.ventana.mainloop()
 
     def change_color(self, imagen_semaforo, semaforo:TrafficLight, rotacion=0):
-
-        #* Cambia el valor de la variable active_color
-        # semaforo.change_color()
-
-        #* Cambia la imagen según el valor que se encuentra en el atributo active_color
         self.view.cambiar_imagen(imagen_semaforo, semaforo.active_color, rotacion)
     
     #def are_close(self, coordenadas_bus, coordenadas_semafora):
 
 
     def move_entity(self, imagen_entidad, dx, dy):
-
         self.view.mover_imagen(imagen_entidad, dx, dy)
 
     @staticmethod
@@ -97,7 +91,6 @@ class Controller:
                 #Controller.move_entity(Controller, Controller.view.bus_gris_0, vx_bus_gris, 0)
                 pass
 
-
             
             #! Buses verticales
             #* Movimiento del bus amarillo
@@ -120,8 +113,6 @@ class Controller:
             else:
                 #Controller.move_entity(Controller, Controller.view.bus_gris_270, 0, -vy_bus_gris)
                 pass
-
-        
 
             if Controller.agent.update_state(total_seconds):
                 Controller.change_color(Controller, Controller.view.semaforo_inferior, tl_ver, 0)

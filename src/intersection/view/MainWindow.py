@@ -28,14 +28,14 @@ class MainWindow:
     size_bus = (180, 81)
 
     #* posición inicial de las imágenes
-    pos_sem_inferior = (416, 438)
-    pos_sem_izquierda = (260, 330)
+    pos_sem_inferior = (440, 450)
+    pos_sem_izquierda = (260, 440)
 
-    pos_bus_amarillo_0 = [34, 341]
+    pos_bus_amarillo_0 = [34, 350]
     pos_bus_morado_0 = [34, 100]
     pos_bus_gris_0 = [34, 200]
 
-    pos_bus_amarillo_270 = [407, 600]
+    pos_bus_amarillo_270 = [370, 600]
     pos_bus_morado_270 = [307, 600]
     pos_bus_gris_270 = [207, 600]
 
