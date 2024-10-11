@@ -46,8 +46,7 @@ class MainWindow:
         if rotacion != 0:
             imagen = imagen.rotate(rotacion, expand=True)
         return ImageTk.PhotoImage(imagen)
-        
-    #TODO: Crear ventanas y lienzos
+
     #* Crear la ventana principal
     ventana = tk.Tk()
     ventana.title("Sistemas Multiagentes")
@@ -57,7 +56,6 @@ class MainWindow:
     canvas = tk.Canvas(ventana, width=size_ventana[0], height=size_ventana[1])
     canvas.pack()
 
-    #TODO: Cargar las imágenes
     #* Imagen del fondo
     fondo_tk = cargar_imagen(path=path_fondo, size=size_fondo)
 
@@ -128,7 +126,6 @@ class MainWindow:
     dict_image_size[semaforo_inferior] = size_sem
     dict_image_size[semaforo_izquierdo] = size_sem
 
-    #TODO: Funciones de movimiento de las imágenes
     def mover_imagen(self, imagen, dx, dy):
 
         # Obtener las coordenadas actuales de la imagen
