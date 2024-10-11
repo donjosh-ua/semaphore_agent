@@ -4,6 +4,7 @@ from src.intersection.model.Traffic import Traffic
 from ..view.MainWindow import MainWindow
 import resources.constants as const
 import time
+import random
 
 
 class Controller:
@@ -17,22 +18,14 @@ class Controller:
     def change_color(self, imagen_semaforo, semaforo:TrafficLight, rotacion=0):
         self.view.cambiar_imagen(imagen_semaforo, semaforo.active_color, rotacion)
     
-    #def are_close(self, coordenadas_bus, coordenadas_semafora):
-
-
     def move_entity(self, imagen_entidad, dx, dy):
         self.view.mover_imagen(imagen_entidad, dx, dy)
 
     @staticmethod
     def run():
 
-        vx_bus_amarillo = 10
-        vx_bus_gris = 10
-        vx_bus_morado = 10
-
-        vy_bus_amarillo = 10
-        vy_bus_gris = 10
-        vy_bus_morado = 10
+        vx_bus_amarillo = random.randint(const.MIN_SPEED, const.MAX_SPEED)
+        vy_bus_morado = random.randint(const.MIN_SPEED, const.MAX_SPEED)
 
         traffic = Traffic()
 
@@ -49,70 +42,26 @@ class Controller:
                 total_seconds = 0
 
             pos_bus_amarillo_0 = Controller.view.get_posicion_image(Controller.view.bus_amarillo_0)
-            pos_bus_gris_0 = Controller.view.get_posicion_image(Controller.view.bus_gris_0)
-            pos_bus_morado_0 = Controller.view.get_posicion_image(Controller.view.bus_morado_0)
-            
-            pos_bus_amarillo_270 = Controller.view.get_posicion_image(Controller.view.bus_amarillo_270)
-            pos_bus_gris_270 = Controller.view.get_posicion_image(Controller.view.bus_gris_270)
             pos_bus_morado_270 = Controller.view.get_posicion_image(Controller.view.bus_morado_270)
 
             posicion_semaforo_izquierdo = Controller.view.get_posicion_image(Controller.view.semaforo_izquierdo)
             posicion_semaforo_inferior = Controller.view.get_posicion_image(Controller.view.semaforo_inferior)
 
-
-            #print("Posición morado:", pos_bus_amarillo_0)
-            #print("Posición amarillo:", pos_bus_amarillo_0)
-            #print("Posición gris:", posicion_bus_gris)
-
-            #print("Posición semafor:", posicion_semaforo_izquierdo)
-
-            #print("move morado:", traffic.can_move(posicion_bus_morado[0] + 180, posicion_semaforo_izquierdo[0], v_bus_amarillo))
-            #print("move amarillo:", traffic.can_move(pos_bus_amarillo_0[0] + Controller.view.size_bus[0]/2, posicion_semaforo_izquierdo[0], vx_bus_amarillo))
-            #print("move gris:", traffic.can_move(posicion_bus_gris[0] + 180, posicion_semaforo_izquierdo[0], v_bus_amarillo))
-
-            #! Buses horazontales
-            #* Movimiento del bus amarillo
-            if traffic.can_move(pos_bus_amarillo_0[0] + Controller.view.size_bus[0]/2, posicion_semaforo_izquierdo[0], vx_bus_amarillo) and tl_hor.active_color != "green":
-                pass
+            # calle horizontal
+            if traffic.can_move(pos_bus_amarillo_0[0] + Controller.view.size_bus[0]/2 + 30, 
+                                posicion_semaforo_izquierdo[0], 
+                                vx_bus_amarillo) and tl_hor.active_color != "green":
+                vx_bus_amarillo = random.randint(const.MIN_SPEED, const.MAX_SPEED)
             else:
                 Controller.move_entity(Controller, Controller.view.bus_amarillo_0, vx_bus_amarillo, 0)
-
-            #* Movimiento del bus morado
-            if traffic.can_move(pos_bus_morado_0[0] + Controller.view.size_bus[0]/2, posicion_semaforo_izquierdo[0], vx_bus_morado) and tl_hor.active_color != "green":
-                pass
-            else:
-                #Controller.move_entity(Controller, Controller.view.bus_morado_0, vx_bus_morado, 0)
-                pass
-
-             #* Movimiento del bus gris
-            if traffic.can_move(pos_bus_gris_0[0] + Controller.view.size_bus[0]/2, posicion_semaforo_izquierdo[0], vx_bus_gris) and tl_hor.active_color != "green":
-                pass
-            else:
-                #Controller.move_entity(Controller, Controller.view.bus_gris_0, vx_bus_gris, 0)
-                pass
-
             
-            #! Buses verticales
-            #* Movimiento del bus amarillo
-            if traffic.can_move(-(pos_bus_amarillo_270[1] - Controller.view.size_bus[0]/2), -posicion_semaforo_inferior[1], vy_bus_amarillo) and tl_ver.active_color != "green":
-                pass
+            # calle vertical
+            if traffic.can_move(-(pos_bus_morado_270[1] - Controller.view.size_bus[0]/2) - 40, 
+                                -posicion_semaforo_inferior[1], 
+                                vy_bus_morado) and tl_ver.active_color != "green":
+                vy_bus_morado = random.randint(const.MIN_SPEED, const.MAX_SPEED)
             else:
-                Controller.move_entity(Controller, Controller.view.bus_amarillo_270, 0, -vy_bus_amarillo)
-                pass
-
-            #* Movimiento del bus morado
-            if traffic.can_move(-(pos_bus_morado_270[1] - Controller.view.size_bus[0]/2), -posicion_semaforo_inferior[1], vy_bus_morado) and tl_ver.active_color != "green":
-                pass
-            else:
-                #Controller.move_entity(Controller, Controller.view.bus_morado_270, 0, -vy_bus_morado)
-                pass
-
-             #* Movimiento del bus gris
-            if traffic.can_move(-(pos_bus_gris_270[1] - Controller.view.size_bus[0]/2), -posicion_semaforo_inferior[1], vy_bus_gris) and tl_ver.active_color != "green":
-                pass
-            else:
-                #Controller.move_entity(Controller, Controller.view.bus_gris_270, 0, -vy_bus_gris)
-                pass
+                Controller.move_entity(Controller, Controller.view.bus_morado_270, 0, -vy_bus_morado)
 
             if Controller.agent.update_state(total_seconds):
                 Controller.change_color(Controller, Controller.view.semaforo_inferior, tl_ver, 0)
