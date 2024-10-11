@@ -19,7 +19,6 @@ class MainWindow:
     path_sem_amarillo = "src/intersection/assets/yellow.png"
     path_bus_amarillo = "src/intersection/assets/bus_amarillo.png"
     path_bus_morado = "src/intersection/assets/bus_morado.png"
-    path_bus_gris = "src/intersection/assets/bus_gris.png"
 
     #* size de las imágenes
     size_fondo = (800, 800)
@@ -32,12 +31,7 @@ class MainWindow:
     pos_sem_izquierda = (260, 440)
 
     pos_bus_amarillo_0 = [34, 350]
-    # pos_bus_morado_0 = [34, 100]
-    # pos_bus_gris_0 = [34, 200]
-
-    # pos_bus_amarillo_270 = [370, 600]
     pos_bus_morado_270 = [370, 600]
-    # pos_bus_gris_270 = [207, 600]
 
     @staticmethod
     def cargar_imagen(path, size, rotacion=0):
@@ -69,17 +63,9 @@ class MainWindow:
     semaforo_amarillo_tk_90 = cargar_imagen(path_sem_amarillo, size_sem, rotacion=270)
     semaforo_verde_tk_90 = cargar_imagen(path_sem_verde, size_sem, rotacion=270)
 
-    #* Imagenes de los buses sin rotar
     bus_amarillo_tk = cargar_imagen(path_bus_amarillo, size_bus)
-    # bus_morado_tk = cargar_imagen(path_bus_morado, size_bus)
-    # bus_gris_tk = cargar_imagen(path_bus_gris, size_bus)
-
-    #* Imagenes de los buses rotados 270°
-    # bus_amarillo_tk_270 = cargar_imagen(path_bus_amarillo, size_bus, rotacion=90)
     bus_morado_tk_270 = cargar_imagen(path_bus_morado, size_bus, rotacion=90)
-    # bus_gris_tk_270 = cargar_imagen(path_bus_gris, size_bus, rotacion=90)
 
-    #TODO: Mostrar imágenes
     #* Mostrar la imagen de fondo, usa como referencia el origen
     canvas.create_image(0, 0, anchor="nw", image=fondo_tk)
 
@@ -89,20 +75,11 @@ class MainWindow:
 
     #* Mostrar buses
     bus_amarillo_0 = canvas.create_image(pos_bus_amarillo_0[0], pos_bus_amarillo_0[1], anchor="nw", image=bus_amarillo_tk)
-    # bus_morado_0 = canvas.create_image(pos_bus_morado_0[0], pos_bus_morado_0[1], anchor="nw", image=bus_morado_tk)
-    # bus_gris_0 = canvas.create_image(pos_bus_gris_0[0], pos_bus_gris_0[1], anchor="nw", image=bus_gris_tk)
-
-    # bus_amarillo_270 = canvas.create_image(pos_bus_amarillo_270[0], pos_bus_amarillo_270[1], anchor="nw", image=bus_amarillo_tk_270)
     bus_morado_270 = canvas.create_image(pos_bus_morado_270[0], pos_bus_morado_270[1], anchor="nw", image=bus_morado_tk_270)
-    # bus_gris_270 = canvas.create_image(pos_bus_gris_270[0], pos_bus_gris_270[1], anchor="nw", image=bus_gris_tk_270)
 
     #* diccionario entre imágenes y posiciones
     dict_image_pos_init = dict()
     dict_image_pos_init[bus_amarillo_0] = pos_bus_amarillo_0
-    # dict_image_pos_init[bus_gris_0] = pos_bus_gris_0
-    # dict_image_pos_init[bus_morado_0] = pos_bus_morado_0
-    # dict_image_pos_init[bus_amarillo_270] = pos_bus_amarillo_270
-    # dict_image_pos_init[bus_gris_270] = pos_bus_gris_270
     dict_image_pos_init[bus_morado_270] = pos_bus_morado_270
     dict_image_pos_init[semaforo_inferior] = pos_sem_inferior
     dict_image_pos_init[semaforo_izquierdo] = pos_sem_izquierda
@@ -110,10 +87,6 @@ class MainWindow:
     #* diccionario entre imágenes y posiciones
     dict_image_pos = dict()
     dict_image_pos[bus_amarillo_0] = pos_bus_amarillo_0
-    # dict_image_pos[bus_gris_0] = pos_bus_gris_0
-    # dict_image_pos[bus_morado_0] = pos_bus_morado_0
-    # dict_image_pos[bus_amarillo_270] = pos_bus_amarillo_270
-    # dict_image_pos[bus_gris_270] = pos_bus_gris_270
     dict_image_pos[bus_morado_270] = pos_bus_morado_270
     dict_image_pos[semaforo_inferior] = pos_sem_inferior
     dict_image_pos[semaforo_izquierdo] = pos_sem_izquierda
@@ -121,8 +94,6 @@ class MainWindow:
     #* diccionario entre imágenes y sus tamaños
     dict_image_size = dict()
     dict_image_size[bus_amarillo_0] = size_bus
-    # dict_image_size[bus_gris_0] = size_bus
-    # dict_image_size[bus_morado_0] = size_bus
     dict_image_size[semaforo_inferior] = size_sem
     dict_image_size[semaforo_izquierdo] = size_sem
 
