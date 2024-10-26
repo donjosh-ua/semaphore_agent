@@ -19,6 +19,7 @@ class MainWindow:
     path_sem_amarillo = "src/intersection/assets/yellow.png"
     path_bus_amarillo = "src/intersection/assets/bus_amarillo.png"
     path_bus_morado = "src/intersection/assets/bus_morado.png"
+    #print(\src\intersection\assets\bus_amarillo.png)
 
     #* size de las imágenes
     size_fondo = (800, 800)
