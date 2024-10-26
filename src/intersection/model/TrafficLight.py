@@ -16,7 +16,7 @@ class TrafficLight:
             self.active_color = self.__colors[0]
         self.set_active_color(self.active_color)
 
-    def __set_image_path(self, color):
+    def set_image_path(self):
         self.image_path = "src/intersection/assets/{self.active_color}.png"
 
     def get_path_image(self):
