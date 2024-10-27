@@ -1,71 +1,58 @@
 from src.intersection.model.TrafficLight import TrafficLight
 from src.agent.model.Agent import Agent
 from src.intersection.model.Traffic import Traffic
-from ..view.MainWindow import MainWindow
+from src.intersection.model.Entity import Entity
+from src.intersection.model.TrafficLight import TrafficLight
+from src.intersection.model.Traffic import Traffic
+#from ..view.ImageView import ImageView
 import resources.constants as const
 import time
 import random
+import pygame
+import sys
 
-
-class Controller:
-
-    agent = Agent()
-    view = MainWindow()
-
+class StreetController:
     def __init__(self):
-        Controller.view.ventana.mainloop()
-
-    def change_color(self, imagen_semaforo, semaforo:TrafficLight, rotacion=0):
-        self.view.cambiar_imagen(imagen_semaforo, semaforo.active_color, rotacion)
+        #ImageController.view.iniciar_ventana()
+        self.entitys = list()
+        self.trafficLights_entitys = dict()
     
-    def move_entity(self, imagen_entidad, dx, dy):
-        self.view.mover_imagen(imagen_entidad, dx, dy)
-
-    @staticmethod
-    def run():
-
-        vx_bus_amarillo = random.randint(const.MIN_SPEED, const.MAX_SPEED)
-        vy_bus_morado = random.randint(const.MIN_SPEED, const.MAX_SPEED)
-
-        traffic = Traffic()
-
-        tl_ver = TrafficLight()
-        tl_hor = TrafficLight()
-
-        Controller.agent.set_traffic_lights(tl_ver, tl_hor)
-        tl_hor.change_color()
-        total_seconds = 0
-
-        while True:
-
-            if(total_seconds >= const.RED_TIME):
-                total_seconds = 0
-
-            pos_bus_amarillo_0 = Controller.view.get_posicion_image(Controller.view.bus_amarillo_0)
-            pos_bus_morado_270 = Controller.view.get_posicion_image(Controller.view.bus_morado_270)
-
-            posicion_semaforo_izquierdo = Controller.view.get_posicion_image(Controller.view.semaforo_izquierdo)
-            posicion_semaforo_inferior = Controller.view.get_posicion_image(Controller.view.semaforo_inferior)
-
-            # calle horizontal
-            if traffic.can_move(pos_bus_amarillo_0[0] + Controller.view.size_bus[0]/2 + 30, 
-                                posicion_semaforo_izquierdo[0], 
-                                vx_bus_amarillo) and tl_hor.active_color != "green":
-                vx_bus_amarillo = random.randint(const.MIN_SPEED, const.MAX_SPEED)
-            else:
-                Controller.move_entity(Controller, Controller.view.bus_amarillo_0, vx_bus_amarillo, 0)
+    def add_entity(self, entity, trafficLigth):
+        #agrega las entidades según el semáforo con el cual va a interactuar.
+        if trafficLigth not in self.trafficLights_entitys.keys():
+            self.trafficLights_entitys[trafficLigth] = [entity]
+        else:
+            self.trafficLights_entitys[trafficLigth].append(entity)
+        
+        self.entitys.append(entity)
+    
+    def handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+                
+    def update(self):
+        #print("movimiento ")
+        #print(self.entitys)
+        for model in self.entitys:
+            #print(f"mover {str(model)}")
+            model.move()
             
-            # calle vertical
-            if traffic.can_move(-(pos_bus_morado_270[1] - Controller.view.size_bus[0]/2) - 40, 
-                                -posicion_semaforo_inferior[1], 
-                                vy_bus_morado) and tl_ver.active_color != "green":
-                vy_bus_morado = random.randint(const.MIN_SPEED, const.MAX_SPEED)
-            else:
-                Controller.move_entity(Controller, Controller.view.bus_morado_270, 0, -vy_bus_morado)
-
-            if Controller.agent.update_state(total_seconds):
-                Controller.change_color(Controller, Controller.view.semaforo_inferior, tl_ver, 0)
-                Controller.change_color(Controller, Controller.view.semaforo_izquierdo, tl_hor, 90)
-
-            time.sleep(const.FRAME_TIME)
-            total_seconds += const.FRAME_TIME
+    def check_and_stop_near_to_trafficLigth(self):
+        for trafficLight in self.trafficLights_entitys.keys():
+            for entity in self.trafficLights_entitys[trafficLight]:
+                #if Traffic().can_move(entity, trafficLight)
+                if self.distance(trafficLight, entity) <= 10 and trafficLight.active_color == "red":
+                    print("La distancia es menor y debe frenar")
+                    entity.is_moving = False
+                    #pass
+                else:
+                    entity.is_moving = True
+        
+    def distance(self, trafficLight, entity):
+        return 0
+    
+    def change_color_trafficLight(self):
+        pass
+        #print("Cambia el color de los semáforos")

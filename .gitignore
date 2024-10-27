@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 borrar.py
+borrar_modelo.py
+borrar_vista.py
+borrar_controlador.py
+traffic_view.py
 # *.png
 # C extensions
 *.so
