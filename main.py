@@ -13,6 +13,7 @@ from src.intersection.model.Entity import Entity
 from src.intersection.model.TrafficLight import TrafficLight
 #from semaphore_agent.src.intersection.view.ImageView import ImageView
 from src.intersection.controller.Controller import StreetController
+import os
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -21,7 +22,10 @@ BACKGROUND_COLOR = (255, 255, 255)
 # Initialization of Pygame
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('MVC Pygame Example')
+pygame.display.set_caption('Sistemas Multiagentes')
+path_fondo = os.path.join(os.path.dirname(__file__), 'src/intersection/assets/fondo.png')
+
+background_image = pygame.transform.scale(pygame.image.load(path_fondo).convert(), (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 def main():
     clock = pygame.time.Clock()
@@ -51,7 +55,7 @@ def main():
         controller.update()
         controller.check_and_stop_near_to_trafficLigth  # Check if any images should be stopped
         controller.change_color_trafficLight()
-
+        screen.blit(background_image, [0, 0])
         # Draw each image
         #print("Hola xd")
         for view in views:
