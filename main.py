@@ -15,19 +15,20 @@ from src.intersection.model.TrafficLight import TrafficLight
 from src.intersection.controller.Controller import StreetController
 import os
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 1000
 BACKGROUND_COLOR = (255, 255, 255)
 
 # Initialization of Pygame
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Sistemas Multiagentes')
-path_fondo = os.path.join(os.path.dirname(__file__), 'src/intersection/assets/fondo.png')
+path_fondo = os.path.join(os.path.dirname(__file__), 'src/intersection/assets/background.png')
 
 background_image = pygame.transform.scale(pygame.image.load(path_fondo).convert(), (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 def main():
+
     clock = pygame.time.Clock()
     cars = [Entity(image_size=(100, 100), x=200, y=200, vel_x=10, vel_y=10) for _ in range(2)]  # Create multiple images
     #people = [Entity(type="person") for _ in range(BALL_COUNT)]  # Create multiple images
