@@ -4,7 +4,7 @@ import os
 from src.intersection.model.Entity import Entity
 from src.intersection.view.MainWindow import ImageView
 from src.intersection.model.TrafficLight import TrafficLight
-from src.intersection.controller.Controller import StreetController
+from src.intersection.controller.StreetController import StreetController
 from resources import constants as cons
 
 
@@ -12,8 +12,8 @@ def main():
 
     clock = pygame.time.Clock()
 
-    # vertical_spawn_points = [(20, 459), (20, 539)]
-    # horizontal_spawn_points = [(459, 20), (539, 20)]
+    vertical_spawn_points = [(20, 459), (20, 539)]
+    horizontal_spawn_points = [(459, 980), (539, 980)]
 
     vertical_lights = []
     vertical_lights.append(TrafficLight("vertical", "street", x=345, y=459))
@@ -33,8 +33,15 @@ def main():
     vertical_lights.append(TrafficLight("horizontal", "pedestrian", x=380, y=420))
     vertical_lights.append(TrafficLight("horizontal", "pedestrian", x=619, y=420))
 
+    bus_list = []
+    bus_list.append(Entity("bus", x=60, y=539))
+    bus_list.append(Entity("bus", x=60, y=459))
+    bus_list.append(Entity("bus", x=459, y=940, rotation=90))
+    bus_list.append(Entity("bus", x=539, y=940, rotation=90))
+
     views = [ImageView(light) for light in vertical_lights]
     views += [ImageView(light) for light in horizontal_lights]
+    views += [ImageView(bus) for bus in bus_list]
 
     controller = StreetController()
 

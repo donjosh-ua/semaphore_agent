@@ -1,60 +1,76 @@
 import pygame
-import os
+import random
+from resources import constants as cons
 
-
-SCREEN_HEIGHT = 800
-SCREEN_WIDTH = 800
 
 class Entity:
+    """
+    Represents a moving entity in the simulation.
+    """
     
-    __paths = { 
-               "person":        "src/intersection/assets/person.png",
-               "bus_yellow":    "src/intersection/assets/bus_yellow.png",
-               "bus_cyan":      "src/intersection/assets/bus_cyan.png",
-               "bus_purple":    "src/intersection/assets/bus_purple.png",
-    }
+    __bus_paths = ["src/intersection/assets/bus_yellow.png",
+                   "src/intersection/assets/bus_cyan.png",
+                   "src/intersection/assets/bus_purple.png",
+                   ]
+    
+    __person_paths = ["src/intersection/assets/person.png"]
 
-    def __init__(self, type=None, speed=0, x=0, y=0, vel_x=0, vel_y=0, image_path="", image_size=(180, 81)):
-        self.speed = speed
-        self.x = x 
-        self.y = y 
-        self.vel_x = vel_x
-        self.vel_y = vel_y
-        self.image_path = image_path
-        self.image_size = image_size
-        self.type = self.set_type(type)
-        self.image = self.load_image()
-        self.rect = self.image.get_rect(center=(self.x, self.y)) 
+    def __init__(self, type: str, x: int = 0, y: int = 0, x_speed: int = 0, y_speed: int = 0, rotation: int = 0):
+        """
+        Initializes the entity with the given parameters.
+        """
+        self.x = x
+        self.y = y
+        self.type = type
+        self.vel_x = x_speed
+        self.vel_y = y_speed
+        self.rotation = rotation
         self.is_moving = True
+        self.__set_image_path(type)
+        self.__set_image_size(type)
+        self.image = self.__load_image()
+        self.rect = self.image.get_rect(center=(x, y))
         
-    def set_type(self, new_type):
-        #* Como cambia el tipo también cambia el asset
-        if new_type != None:
-            self.set_image_path()
+    def __set_image_size(self, type: str) -> None:
+        """
+        Sets the image size based on the entity type.
+        """
+        if type == "bus":
+            self.image_size = (cons.BUS_LENGTH, cons.BUS_WIDTH)
         else:
-            self.image_path = os.path.join(os.path.dirname(__file__), '../assets/default.png')
-            
-        return new_type
+            self.image_size = (cons.PERSON_LENGTH, cons.PERSON_WIDTH)
 
-    def set_image_path(self):
-        self.image_path = self.__paths[self.type]
+    def __set_image_path(self, type):
+        """
+        Updates the image path based on the entity type.
+        """
+        if type == "bus":
+            self.image_path = self.__bus_paths[random.randint(0, len(self.__bus_paths) - 1)]
+        else:
+            self.image_path = self.__person_paths[0]
+
+    def get_image_path(self) -> str:
+        """
+        Returns the image path of the entity.
+        """
+        return self.image_path
     
     def move(self):
+        """
+        Moves the entity and handles boundary collisions.
+        """
         self.x += self.vel_x
         self.y += self.vel_y
         self.rect.center = (self.x, self.y)
-        #print(f"{self}: {self.x}, {self.y}")
-        #print("Has llegado al tope rey")
 
-        # Bounce the ball if it hits the screen boundaries
-        if self.rect.right >= SCREEN_WIDTH or self.rect.left <= 0:
+        # Bounce the entity if it hits the screen boundaries
+        if self.rect.right >= cons.SCREEN_WIDTH or self.rect.left <= 0:
             self.vel_x = -self.vel_x
-        if self.rect.bottom >= SCREEN_HEIGHT or self.rect.top <= 0:
+        if self.rect.bottom >= cons.SCREEN_HEIGHT or self.rect.top <= 0:
             self.vel_y = -self.vel_y
             
-    def load_image(self, rotacion=0):
-        # print("Path a cargar:", self.image_path)
-        return pygame.transform.rotate( #* rota la imagen
-                    pygame.transform.scale( #* redimensiona la imagen
-                        pygame.image.load(self.image_path), self.image_size),  #* carga la imagen
-                rotacion)
+    def __load_image(self, rotation: int = 0) -> pygame.Surface:
+        """
+        Loads and transforms the entity's image.
+        """
+        return pygame.transform.rotate(pygame.transform.scale(pygame.image.load(self.image_path), self.image_size), self.rotation)
