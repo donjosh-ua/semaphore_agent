@@ -1,24 +1,20 @@
-
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 800
-
 import pygame
-
 import os
 
-# Construir la ruta correcta a la imagen
+
+SCREEN_HEIGHT = 800
+SCREEN_WIDTH = 800
 
 class Entity:
     
     __paths = { 
-               "person": "src/intersection/person.png",
-               "bus_gris":"src/intersection/bus_gris.png",
-               "bus_celeste":"src/intersection/bus_celeste.png",
-               "bus_morado":"src/intersection/bus_morado.png",
+               "person":        "src/intersection/assets/person.png",
+               "bus_yellow":    "src/intersection/assets/bus_yellow.png",
+               "bus_cyan":      "src/intersection/assets/bus_cyan.png",
+               "bus_purple":    "src/intersection/assets/bus_purple.png",
     }
 
     def __init__(self, type=None, speed=0, x=0, y=0, vel_x=0, vel_y=0, image_path="", image_size=(180, 81)):
-        
         self.speed = speed
         self.x = x 
         self.y = y 
@@ -28,7 +24,7 @@ class Entity:
         self.image_size = image_size
         self.type = self.set_type(type)
         self.image = self.load_image()
-        self.rect = self.image.get_rect(center=(self.x, self.y))  # centro de la i
+        self.rect = self.image.get_rect(center=(self.x, self.y)) 
         self.is_moving = True
         
     def set_type(self, new_type):

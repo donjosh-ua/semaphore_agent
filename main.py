@@ -5,10 +5,8 @@ from src.intersection.model.Entity import Entity
 from src.intersection.view.MainWindow import ImageView
 from src.intersection.model.TrafficLight import TrafficLight
 from src.intersection.controller.Controller import StreetController
+from resources import constants as cons
 
-
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 1000
 
 def main():
 
@@ -35,13 +33,12 @@ def main():
     vertical_lights.append(TrafficLight("horizontal", "pedestrian", x=380, y=420))
     vertical_lights.append(TrafficLight("horizontal", "pedestrian", x=619, y=420))
 
-    views = [ImageView(traffic_light) for traffic_light in vertical_lights]
-    views += [ImageView(traffic_light) for traffic_light in horizontal_lights]
+    views = [ImageView(light) for light in vertical_lights]
+    views += [ImageView(light) for light in horizontal_lights]
 
     controller = StreetController()
-    running = True
 
-    while running:
+    while True:
 
         controller.handle_events()
         controller.update()
@@ -53,15 +50,15 @@ def main():
             view.draw(screen)
             
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(cons.FRAME_RATE)
 
 if __name__ == '__main__':
 
     pygame.init()
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    pygame.display.set_caption('Sistemas Multiagentes')
-    path_fondo = os.path.join(os.path.dirname(__file__), 'src/intersection/assets/background.png')
+    screen = pygame.display.set_mode(cons.SCREEN_SIZE)
+    pygame.display.set_caption("Control de semáforos")
+    path_fondo = os.path.join(os.path.dirname(__file__), "src/intersection/assets/background.png")
 
-    background_image = pygame.transform.scale(pygame.image.load(path_fondo).convert(), (SCREEN_WIDTH, SCREEN_HEIGHT))
+    background_image = pygame.transform.scale(pygame.image.load(path_fondo).convert(), cons.SCREEN_SIZE)
 
     main()
