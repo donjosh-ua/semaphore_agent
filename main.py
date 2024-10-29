@@ -1,75 +1,67 @@
-#from src.intersection.controller.Controller import ImageController
-#import threading    
-#from semaphore_agent.src.intersection.view.ImageView import ImageView
-from src.intersection.model import TrafficLight, Traffic, Entity
-from src.intersection.controller.Controller import StreetController
-from src.intersection.view.MainWindow import ImageView
-
 import pygame
-
-
-import pygame
-from src.intersection.model.Entity import Entity
-from src.intersection.model.TrafficLight import TrafficLight
-#from semaphore_agent.src.intersection.view.ImageView import ImageView
-from src.intersection.controller.Controller import StreetController
 import os
+
+from src.intersection.model.Entity import Entity
+from src.intersection.view.MainWindow import ImageView
+from src.intersection.model.TrafficLight import TrafficLight
+from src.intersection.controller.Controller import StreetController
+
 
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
-BACKGROUND_COLOR = (255, 255, 255)
-
-# Initialization of Pygame
-pygame.init()
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('Sistemas Multiagentes')
-path_fondo = os.path.join(os.path.dirname(__file__), 'src/intersection/assets/background.png')
-
-background_image = pygame.transform.scale(pygame.image.load(path_fondo).convert(), (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 def main():
 
     clock = pygame.time.Clock()
-    cars = [Entity(image_size=(100, 100), x=200, y=200, vel_x=10, vel_y=10) for _ in range(2)]  # Create multiple images
-    #people = [Entity(type="person") for _ in range(BALL_COUNT)]  # Create multiple images
-    
-    trafficLights = [TrafficLight(image_size=(45, 90), x=200, y=200,), TrafficLight(image_size=(45, 90), x=100, y=300)]  # Create multiple images
-    
-    images = cars #+ people
-    
-    views = [ImageView(image) for image in images]  # Create a view for each image
-    
-    print("Views:",views)
-    controller = StreetController()
-    
-    for entity in images:
-        controller.add_entity(entity, trafficLights[0])
-    
-    # Instantiate the color-changing square
-    #color_changing_square = ColorChangingSquare()
 
+    # vertical_spawn_points = [(20, 459), (20, 539)]
+    # horizontal_spawn_points = [(459, 20), (539, 20)]
+
+    vertical_lights = []
+    vertical_lights.append(TrafficLight("vertical", "street", x=345, y=459))
+    vertical_lights.append(TrafficLight("vertical", "street", x=345, y=539))
+   
+    vertical_lights.append(TrafficLight("vertical", "pedestrian", x=420, y=619))
+    vertical_lights.append(TrafficLight("vertical", "pedestrian", x=582, y=619))
+    vertical_lights.append(TrafficLight("vertical", "pedestrian", x=420, y=380))
+    vertical_lights.append(TrafficLight("vertical", "pedestrian", x=582, y=380))
+
+    horizontal_lights = []
+    horizontal_lights.append(TrafficLight("horizontal", "street", x=459, y=655))
+    horizontal_lights.append(TrafficLight("horizontal", "street", x=539, y=655))
+
+    vertical_lights.append(TrafficLight("horizontal", "pedestrian", x=380, y=580))
+    vertical_lights.append(TrafficLight("horizontal", "pedestrian", x=619, y=580))
+    vertical_lights.append(TrafficLight("horizontal", "pedestrian", x=380, y=420))
+    vertical_lights.append(TrafficLight("horizontal", "pedestrian", x=619, y=420))
+
+    views = [ImageView(traffic_light) for traffic_light in vertical_lights]
+    views += [ImageView(traffic_light) for traffic_light in horizontal_lights]
+
+    controller = StreetController()
     running = True
-    #screen.fill(BACKGROUND_COLOR)
+
     while running:
-        screen.fill(BACKGROUND_COLOR)
+
         controller.handle_events()
         controller.update()
-        controller.check_and_stop_near_to_trafficLigth  # Check if any images should be stopped
+        controller.check_and_stop_near_to_trafficLigth
         controller.change_color_trafficLight()
         screen.blit(background_image, [0, 0])
-        # Draw each image
-        #print("Hola xd")
-        for view in views:
+
+        for view in views:  
             view.draw(screen)
             
         pygame.display.flip()
-        clock.tick(60)  # Maintain 60 FPS
+        clock.tick(60)
 
 if __name__ == '__main__':
+
+    pygame.init()
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pygame.display.set_caption('Sistemas Multiagentes')
+    path_fondo = os.path.join(os.path.dirname(__file__), 'src/intersection/assets/background.png')
+
+    background_image = pygame.transform.scale(pygame.image.load(path_fondo).convert(), (SCREEN_WIDTH, SCREEN_HEIGHT))
+
     main()
-
-    
-
-    
-
-    

@@ -17,7 +17,7 @@ class Entity:
                "bus_morado":"src/intersection/bus_morado.png",
     }
 
-    def __init__(self, type=None, speed=0, x=0, y=0, vel_x=0, vel_y=0, image_path="", image_size=(0,0)):
+    def __init__(self, type=None, speed=0, x=0, y=0, vel_x=0, vel_y=0, image_path="", image_size=(180, 81)):
         
         self.speed = speed
         self.x = x 
@@ -57,7 +57,7 @@ class Entity:
             self.vel_y = -self.vel_y
             
     def load_image(self, rotacion=0):
-        print("Path a cargar:", self.image_path)
+        # print("Path a cargar:", self.image_path)
         return pygame.transform.rotate( #* rota la imagen
                     pygame.transform.scale( #* redimensiona la imagen
                         pygame.image.load(self.image_path), self.image_size),  #* carga la imagen

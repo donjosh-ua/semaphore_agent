@@ -1,6 +1,6 @@
 import tkinter as tk
-from PIL import Image, ImageTk
 import pygame
+
 """
 Valores de referencia
 #! Tamaño de los semáforos: 45, 90
@@ -17,7 +17,7 @@ class ImageView:
         
     def draw(self, screen):
         #print("Dibujos cada cosa")
-        print(f"Modelo:{str(self.model.image)}, Recta:{str(self.model.rect)}")
+        # print(f"Modelo:{str(self.model.image)}, Recta:{str(self.model.rect)}")
         screen.blit(self.model.image, self.model.rect)
         
     

@@ -1,17 +1,8 @@
-from src.intersection.model.TrafficLight import TrafficLight
-from src.agent.model.Agent import Agent
-from src.intersection.model.Traffic import Traffic
-from src.intersection.model.Entity import Entity
-from src.intersection.model.TrafficLight import TrafficLight
-from src.intersection.model.Traffic import Traffic
-#from ..view.ImageView import ImageView
-import resources.constants as const
-import time
-import random
 import pygame
 import sys
 
 class StreetController:
+
     def __init__(self):
         #ImageController.view.iniciar_ventana()
         self.entitys = list()
