@@ -1,4 +1,6 @@
+import time
 from src.agent.model.Agent import Agent
+from resources import constants as cons
 
 
 class MasController:
@@ -11,6 +13,7 @@ class MasController:
 
     def __init__(self):
         if not self.__initialized:
+            self.change_control = False
             self.__agents = []
             self.__street_agents = []
             self.__initialized = True
@@ -28,8 +31,13 @@ class MasController:
         
         return agent
 
-    def update(self) -> None:        
-          
+    def update(self, elapsed_time) -> None:        
+        
+        # if elapsed_time < cons.STRAIGHT_GREEN_TIME:
+            # return
+
+        self.change_control = False
+        
         for agent in self.__agents:
             if agent.has_control and agent.type == "street":
                 agent.update_state()
@@ -40,8 +48,11 @@ class MasController:
         if sa1.current_state == 5 and sa1.has_control:
             sa1.has_control = False
             sa2.has_control = True
-            return
+            self.change_control = True
+
+            return 
         
         if sa2.current_state == 5 and sa2.has_control:
             sa2.has_control = False
             sa1.has_control = True
+            self.change_control = True

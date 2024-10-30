@@ -43,6 +43,8 @@ class MainWindow:
         # create views for entities
         self.entity_views = [ImageView(entity) for entity in self.street_controller.entities]
 
+        # start time
+        self.start_time = time.time()
 
         self._initialized = True
         self.run()
@@ -56,8 +58,18 @@ class MainWindow:
 
         while True:
 
+            # Calculate elapsed time
+            elapsed_time: float = time.time() - self.start_time
+            
             self.street_controller.handle_events()
-            self.mas_controller.update()
+
+            if self.mas_controller.change_control:
+                self.mas_controller.update(elapsed_time)
+                continue
+
+            if elapsed_time > cons.STRAIGHT_GREEN_TIME:
+                self.mas_controller.update(elapsed_time)
+                self.start_time = time.time()
 
             self.screen.blit(self.background, [0, 0])
 
@@ -67,4 +79,4 @@ class MainWindow:
             pygame.display.flip()
             clock.tick(cons.FRAME_RATE)
             
-            time.sleep(1)
+            # time.sleep(1)
