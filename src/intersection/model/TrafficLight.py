@@ -1,5 +1,5 @@
-import pygame
 import os
+import pygame
 from resources import constants as cons
 
 
@@ -48,17 +48,22 @@ class TrafficLight:
         """
         return self.image_path
 
-    def __load_image(self, rotation: int = 0) -> pygame.Surface:
+    def __load_image(self) -> pygame.Surface:
         """
         Loads and transforms the traffic light's image.
         """
-        return pygame.transform.rotate(pygame.transform.scale(pygame.image.load(self.image_path), self.image_size), rotation)
+        return pygame.transform.scale(
+            pygame.image.load(self.image_path),
+            self.image_size
+        )
 
     def set_active_color(self, color: str):
         """
         Sets the active color of the traffic light.
         """
         self.active_color = color
+        self.__set_image_path(self.type)
+        self.image = self.__load_image()
 
     def change_color(self):
         """

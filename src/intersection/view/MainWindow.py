@@ -1,23 +1,50 @@
-import tkinter as tk
 import pygame
-
-"""
-Valores de referencia
-#! Tamaño de los semáforos: 45, 90
-#! Tamaño del fondo: 1348, 793 -> 800x800
-#! Tamano de los buses: 500, 226 -> 180, 81
-#! Posición del semáforo inferior: 720, 450
-#! Posición del semáforo izquierdo: 0, 0
-"""
+from resources import constants as cons
+from src.intersection.view.ImageView import ImageView
+from src.intersection.controller.StreetController import StreetController
 
 
-class ImageView:
-    def __init__(self, model) -> None:
-        self.model = model
-        
-    def draw(self, screen):
-        #print("Dibujos cada cosa")
-        # print(f"Modelo:{str(self.model.image)}, Recta:{str(self.model.rect)}")
-        screen.blit(self.model.image, self.model.rect)
-        
-    
+class MainWindow:
+
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super(MainWindow, cls).__new__(cls, *args, **kwargs)
+        return cls._instance
+
+    def __init__(self):
+        if not hasattr(self, '_initialized'):
+            pygame.init()
+            self.screen = pygame.display.set_mode(cons.SCREEN_SIZE)
+            pygame.display.set_caption("Traffic simulation")
+            self.background_path = "src/intersection/assets/background.png"
+            self.background = pygame.transform.scale(pygame.image.load(self.background_path).convert(), cons.SCREEN_SIZE)
+
+            self._initialized = True
+            self.run()
+
+    def run(self):
+
+        clock = pygame.time.Clock()
+        views = []
+
+        vertical_spawn_points = [(20, 459), (20, 539)]
+        horizontal_spawn_points = [(459, 980), (539, 980)]
+
+        controller = StreetController()
+
+        for agent in controller.mas.get_agents():
+            for light in agent.get_lights():
+                views += [ImageView(light)]
+
+        while True:
+
+            controller.handle_events()
+            self.screen.blit(self.background, [0, 0])
+
+            for view in views:  
+                view.draw(self.screen)
+                
+            pygame.display.flip()
+            clock.tick(cons.FRAME_RATE)

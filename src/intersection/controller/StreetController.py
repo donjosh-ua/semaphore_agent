@@ -1,49 +1,47 @@
-import pygame
 import sys
+import pygame
+from src.intersection.model.TrafficLight import TrafficLight
+from src.agent.controller.MasController import MasController
 
 class StreetController:
 
+    mas = MasController()
+
     def __init__(self):
-        #ImageController.view.iniciar_ventana()
-        self.entitys = list()
-        self.trafficLights_entitys = dict()
-    
-    def add_entity(self, entity, trafficLigth):
-        #agrega las entidades según el semáforo con el cual va a interactuar.
-        if trafficLigth not in self.trafficLights_entitys.keys():
-            self.trafficLights_entitys[trafficLigth] = [entity]
-        else:
-            self.trafficLights_entitys[trafficLigth].append(entity)
-        
-        self.entitys.append(entity)
-    
+        self.entities = []
+        self.create_agents()
+
+    def create_agents(self):
+
+        horizontal_street_agent = self.mas.create_agent()
+        horizontal_street_agent.add_light(TrafficLight("vertical", "street", x=345, y=459))
+        horizontal_street_agent.add_light(TrafficLight("vertical", "street", x=345, y=539))
+
+        vertical_street_agent = self.mas.create_agent()
+        vertical_street_agent.add_light(TrafficLight("horizontal", "street", x=459, y=655))
+        vertical_street_agent.add_light(TrafficLight("horizontal", "street", x=539, y=655))
+
+        horizontal_pedestrian_agent = self.mas.create_agent()
+        horizontal_pedestrian_agent.add_light(TrafficLight("vertical", "pedestrian", x=420, y=619))
+        horizontal_pedestrian_agent.add_light(TrafficLight("vertical", "pedestrian", x=582, y=619))
+        horizontal_pedestrian_agent.add_light(TrafficLight("vertical", "pedestrian", x=420, y=380))
+        horizontal_pedestrian_agent.add_light(TrafficLight("vertical", "pedestrian", x=582, y=380))
+
+        vertical_pedestrian_agent = self.mas.create_agent()
+        vertical_pedestrian_agent.add_light(TrafficLight("horizontal", "pedestrian", x=380, y=580))
+        vertical_pedestrian_agent.add_light(TrafficLight("horizontal", "pedestrian", x=619, y=580))
+        vertical_pedestrian_agent.add_light(TrafficLight("horizontal", "pedestrian", x=380, y=420))
+        vertical_pedestrian_agent.add_light(TrafficLight("horizontal", "pedestrian", x=619, y=420))
+
+    def add_entity(self, entity):
+        self.entities.append(entity)
+
+    def draw_entities(self, screen):
+        for entity in self.entities:
+            screen.blit(entity.image, entity.rect)
+
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-                
-    def update(self):
-        #print("movimiento ")
-        #print(self.entitys)
-        for model in self.entitys:
-            #print(f"mover {str(model)}")
-            model.move()
-            
-    def check_and_stop_near_to_trafficLigth(self):
-        for trafficLight in self.trafficLights_entitys.keys():
-            for entity in self.trafficLights_entitys[trafficLight]:
-                #if Traffic().can_move(entity, trafficLight)
-                if self.distance(trafficLight, entity) <= 10 and trafficLight.active_color == "red":
-                    print("La distancia es menor y debe frenar")
-                    entity.is_moving = False
-                    #pass
-                else:
-                    entity.is_moving = True
-        
-    def distance(self, trafficLight, entity):
-        return 0
-    
-    def change_color_trafficLight(self):
-        pass
-        #print("Cambia el color de los semáforos")
