@@ -26,6 +26,7 @@ class Entity:
         self.vel_y = y_speed
         self.rotation = rotation
         self.is_moving = True
+        self.is_crossing = False
         self.__set_image_path(type)
         self.__set_image_size(type)
         self.image = self.__load_image()
@@ -59,18 +60,20 @@ class Entity:
         """
         Moves the entity and handles boundary collisions.
         """
-        self.x += self.vel_x
-        self.y += self.vel_y
-        self.rect.center = (self.x, self.y)
+        if self.is_moving:
+            self.x += self.vel_x
+            self.y += self.vel_y
+            self.rect.center = (self.x, self.y)
 
-        #print(self.rect.center, self.rect.right, self.rect.left, sep= "|")
-        # Bounce the entity if it hits the screen boundaries
-        if self.rect.right >= cons.SCREEN_SIZE[0] or self.rect.left <= 0: 
-            #self.vel_x = -self.vel_x
-            self.__respaw("HORIZONTAL")
-        if self.rect.bottom >= cons.SCREEN_SIZE[1] or self.rect.top <= 0:
-            #self.vel_y = -self.vel_y
-            self.__respaw("VERTICAL")
+            #print(self.rect.center, self.rect.right, self.rect.left, sep= "|")
+            # Bounce the entity if it hits the screen boundaries
+            if self.rect.right >= cons.SCREEN_SIZE[0] or self.rect.left <= 0: 
+                #self.vel_x = -self.vel_x
+                self.__respaw("HORIZONTAL")
+            if self.rect.bottom >= cons.SCREEN_SIZE[1] or self.rect.top <= 0:
+                #self.vel_y = -self.vel_y
+                self.__respaw("VERTICAL")
+        
     
     def __respaw(self, posicion):
         # randomize posicion

@@ -37,13 +37,13 @@ class MainWindow:
         self.street_controller = StreetController()
 
         # instance of entity bus type
-        self.street_controller.add_entity(Entity("bus", x=cons.BUS_LENGTH/2, y=459, x_speed=5))
+        self.street_controller.add_entity(Entity("bus", x=cons.BUS_LENGTH/2, y=459, x_speed=6))
         self.street_controller.add_entity(Entity("bus", x=459, y=cons.SCREEN_SIZE[1]-cons.BUS_LENGTH/2, y_speed=-7, rotation=90))
         
-        # instance of entity bus person
-        #self.street_controller.add_entity(Entity("person", x=420, y=200, x_speed=1))
-        #self.street_controller.add_entity(Entity("person", x=200, y=420, y_speed=1)) 
-
+        # instance of entity person type
+        self.street_controller.add_entity(Entity("person", x=420, y=380, x_speed=10))
+        self.street_controller.add_entity(Entity("person", x=619, y=cons.SCREEN_SIZE[1]-cons.PEDESTRIAN_LIGHT_LENGTH/2 ,y_speed=-20))
+        
         # create views for traffic lights
         self.traffic_light_views = []
         for agent in self.mas_controller.get_agents():
@@ -62,16 +62,6 @@ class MainWindow:
     def run(self):
 
         clock = pygame.time.Clock()
-  
-        # Spawn points(sp) 
-        
-        # For bus entities 
-        vertical_sp_bus = [(cons.BUS_LENGTH/2, 459), (cons.BUS_LENGTH/2, 539)]
-        horizontal_sp_bus = [(459, cons.SCREEN_SIZE[1]-cons.BUS_LENGTH/2), (539, cons.SCREEN_SIZE[1]-cons.BUS_LENGTH/2)]
-        
-        #For person entities
-        vertical_sp_person = [(cons.BUS_LENGTH/2, 459), (cons.BUS_LENGTH/2, 539)]
-        horizontal_sp_person = [(459, cons.SCREEN_SIZE[1]-cons.BUS_LENGTH/2), (539, cons.SCREEN_SIZE[1]-cons.BUS_LENGTH/2)]
         
         while True:
 
@@ -79,8 +69,7 @@ class MainWindow:
             elapsed_time: float = time.time() - self.start_time
             
             self.street_controller.handle_events()
-            #self.street_controller
-
+            
             # check if control should be switched
             if self.mas_controller.change_control:
                 self.mas_controller.update(elapsed_time)
@@ -95,12 +84,11 @@ class MainWindow:
             
             #draw the views of the entities
             for entity in self.street_controller.entities:
-                #if 
+                entity.is_moving, entity.is_crossing = self.street_controller.can_move(entity)
                 entity.move()
             
             for view in self.entity_views:
                 view.draw(self.screen)
-            
             
             for view in self.entity_views:
                 view.draw(self.screen)

@@ -1,12 +1,20 @@
 
 class Traffic:
-
-    def is_near(self, entity_xy, trafficLigth_xy, velocity_entity_dxy):
-        return (entity_xy + velocity_entity_dxy) > trafficLigth_xy
-
-    def is_before(self, entity_xy, trafficLigth_xy):
-        return (entity_xy - trafficLigth_xy) <= 0
-
-    def can_move(self, entity_xy, trafficLigth_xy, velocity_entity_dxy):
-        return self.is_near(entity_xy, trafficLigth_xy, velocity_entity_dxy) and self.is_before(entity_xy, trafficLigth_xy)
+    @staticmethod
+    def is_same_street(entityCorner, trafficLigthCorner):
+        return entityCorner==trafficLigthCorner
+        
+    @staticmethod
+    def __is_near(entityCorner, trafficLigthCorner, velocityEntity):
+        if entityCorner < trafficLigthCorner:
+            return (entityCorner + velocityEntity) > trafficLigthCorner
+        else: 
+            return False
+        
+    @staticmethod
+    def __is_before(entityCorner, trafficLigthCorner):
+        return (entityCorner - trafficLigthCorner) <= 0
     
+    @staticmethod
+    def is_influenciable(entityCorner, trafficLigthCorner, velocityEntity):
+        return Traffic.__is_near(entityCorner, trafficLigthCorner, velocityEntity) and Traffic.__is_before(entityCorner, trafficLigthCorner)    
