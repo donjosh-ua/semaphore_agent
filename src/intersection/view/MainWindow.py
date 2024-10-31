@@ -1,6 +1,7 @@
 import time
 import pygame
 from resources import constants as cons
+from src.intersection.model.Entity import Entity
 from src.intersection.view.ImageView import ImageView
 from src.agent.controller.MasController import MasController
 from src.intersection.controller.StreetController import StreetController
@@ -90,6 +91,7 @@ class MainWindow:
             self.street_controller.handle_events()
             #self.street_controller
 
+            # check if control should be switched
             if self.mas_controller.change_control:
                 self.mas_controller.update(elapsed_time)
                 continue
@@ -97,6 +99,7 @@ class MainWindow:
             if elapsed_time > cons.STRAIGHT_GREEN_TIME:
                 self.mas_controller.update(elapsed_time)
                 self.start_time = time.time()
+            self.mas_controller.update(elapsed_time)
 
             self.screen.blit(self.background, [0, 0])
             
@@ -119,4 +122,3 @@ class MainWindow:
             pygame.display.flip()
             clock.tick(cons.FRAME_RATE)
             
-            # time.sleep(1)

@@ -16,7 +16,10 @@ class MasController:
             self.change_control = False
             self.__agents = []
             self.__street_agents = []
+            self.__pedestrian_agents = []
             self.__initialized = True
+            self.__states = (0, cons.FIRST_STATE, cons.SECOND_STATE, cons.THIRD_STATE, cons.FOURTH_STATE)
+            self.__processed_state = set()
 
     def get_agents(self):
         return self.__agents
@@ -28,19 +31,12 @@ class MasController:
 
         if agent.type == "street":
             self.__street_agents.append(agent)
+        else:
+            self.__pedestrian_agents.append(agent)
         
         return agent
-
-    def update(self, elapsed_time) -> None:        
-        
-        # if elapsed_time < cons.STRAIGHT_GREEN_TIME:
-            # return
-
-        self.change_control = False
-        
-        for agent in self.__agents:
-            if agent.has_control and agent.type == "street":
-                agent.update_state()
+    
+    def switch_street_agents_control(self):
 
         sa1 = self.__street_agents[0]
         sa2 = self.__street_agents[1]
@@ -56,3 +52,42 @@ class MasController:
             sa2.has_control = False
             sa1.has_control = True
             self.change_control = True
+
+    def switch_pedestrian_agents_control(self):
+
+        pa1 = self.__pedestrian_agents[0]
+        pa2 = self.__pedestrian_agents[1]
+
+        if pa1.current_state == 5 and pa1.has_control:
+            pa1.has_control = False
+            pa2.has_control = True
+            self.change_control = True
+
+            return 
+        
+        if pa2.current_state == 5 and pa2.has_control:
+            pa2.has_control = False
+            pa1.has_control = True
+            self.change_control = True
+
+    def update(self, elapsed_time) -> None:       
+
+        self.change_control = False 
+        
+        elapsed_time = int(elapsed_time)
+        print(elapsed_time)
+    
+        if elapsed_time not in self.__states or elapsed_time in self.__processed_state:
+            return
+        
+        self.__processed_state.add(elapsed_time)
+
+        if elapsed_time == cons.FOURTH_STATE:
+            self.__processed_state.clear()
+        
+        for agent in self.__agents:
+            if agent.has_control:
+                agent.update_state()
+
+        self.switch_pedestrian_agents_control()
+        self.switch_street_agents_control()
