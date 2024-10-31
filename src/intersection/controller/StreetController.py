@@ -4,6 +4,7 @@ import pygame
 from resources import constants as cons
 from src.intersection.model.TrafficLight import TrafficLight
 from src.agent.controller.MasController import MasController
+from src.intersection.model.Traffic import Traffic
 
 class StreetController:
 
@@ -37,6 +38,9 @@ class StreetController:
 
     def add_entity(self, entity):
         self.entities.append(entity)
+    
+    def can_move(self, entity):
+        pass
 
     def draw_entities(self, screen):
         for entity in self.entities:

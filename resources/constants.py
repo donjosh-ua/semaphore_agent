@@ -30,10 +30,10 @@ HORIZONTAL_SPAWN_BUS = [(459, SCREEN_SIZE[1]-BUS_LENGTH/2), (539, SCREEN_SIZE[1]
 
 SPAWN_POSICION = {
     "HORIZONTAL": {
-        "bus": [(BUS_LENGTH/2, 459), (BUS_LENGTH/2, 539)], 
+        "bus": [(int(BUS_LENGTH/2), 459), (int(BUS_LENGTH/2), 539)], 
         "person":[]},
     "VERTICAL": {
-        "bus": [(459, SCREEN_SIZE[1]-BUS_LENGTH/2), (539, SCREEN_SIZE[1]-BUS_LENGTH/2)], 
+        "bus": [(459, int(SCREEN_SIZE[1]-BUS_LENGTH/2)), (539, int(SCREEN_SIZE[1]-BUS_LENGTH/2))], 
         "person": []}}
 
 #VERTICAL_SPAWN_PERSON = [(BUS_LENGTH/2, 459), (BUS_LENGTH/2, 539)]

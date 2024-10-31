@@ -66,20 +66,21 @@ class Entity:
         #print(self.rect.center, self.rect.right, self.rect.left, sep= "|")
         # Bounce the entity if it hits the screen boundaries
         if self.rect.right >= cons.SCREEN_SIZE[0] or self.rect.left <= 0: 
-            self.vel_x = -self.vel_x
+            #self.vel_x = -self.vel_x
             self.__respaw("HORIZONTAL")
         if self.rect.bottom >= cons.SCREEN_SIZE[1] or self.rect.top <= 0:
-            self.vel_y = -self.vel_y
+            #self.vel_y = -self.vel_y
             self.__respaw("VERTICAL")
     
     def __respaw(self, posicion):
-        #if posicion == "HORIZONTAL":
+        # randomize posicion
         spawnValues = cons.SPAWN_POSICION[posicion][self.type]
-        print(spawnValues)
-        #center = cons.HORIZONTAL_SPAWN_BUS[random.randint(0, 1)]
-        #print(center)
-        #self.image.get_rect(center=cons.HORIZONTAL_SPAWN_BUS[random.randint(0, 1)])
-        pass
+        self.rect.center = spawnValues[random.randint(0, 1)]
+        self.x, self.y = self.rect.center
+        
+        # randomize image
+        self.__set_image_path(self.type)
+        self.image = self.__load_image()
     
     def __load_image(self, rotation: int = 0) -> pygame.Surface:
         """

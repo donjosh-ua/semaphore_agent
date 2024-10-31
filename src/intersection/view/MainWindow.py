@@ -37,11 +37,8 @@ class MainWindow:
         self.street_controller = StreetController()
 
         # instance of entity bus type
-        self.street_controller.add_entity(Entity("bus", x=cons.BUS_LENGTH/2, y=459, x_speed=1))
-        # (20, 459) = (x=cons.BUS_LENGTH/2, y=459)
-        self.street_controller.add_entity(Entity("bus", x=459, y=cons.SCREEN_SIZE[1]-cons.BUS_LENGTH/2, y_speed=-1, rotation=90))
-        # (459, 980) = (x=459, y=cons.SCREEN_SIZE[1]-cons.BUS_LENGTH/2), (20, 459) = (x=cons.BUS_LENGTH/2, y=459)
-        
+        self.street_controller.add_entity(Entity("bus", x=cons.BUS_LENGTH/2, y=459, x_speed=5))
+        self.street_controller.add_entity(Entity("bus", x=459, y=cons.SCREEN_SIZE[1]-cons.BUS_LENGTH/2, y_speed=-7, rotation=90))
         
         #self.street_controller.add_entity(Entity("bus", x=20, y=539, x_speed=10, y_speed=10)) 
         #self.street_controller.add_entity(Entity("bus", x=20, y=459))  
@@ -96,7 +93,7 @@ class MainWindow:
                 self.mas_controller.update(elapsed_time)
                 continue
             
-            if elapsed_time > cons.STRAIGHT_GREEN_TIME:
+            if elapsed_time > cons.FOURTH_STATE:
                 self.mas_controller.update(elapsed_time)
                 self.start_time = time.time()
             self.mas_controller.update(elapsed_time)
@@ -106,7 +103,8 @@ class MainWindow:
             #draw the views of the entities
             #print("Total de entidades:", len(self.entity_views))
             for entity in self.street_controller.entities:
-                entity.move()
+                if 
+                    entity.move()
             
             for view in self.entity_views:
                 view.draw(self.screen)
