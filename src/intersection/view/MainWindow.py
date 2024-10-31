@@ -1,6 +1,7 @@
 import time
 import pygame
 from resources import constants as cons
+from src.intersection.model.Entity import Entity
 from src.intersection.view.ImageView import ImageView
 from src.agent.controller.MasController import MasController
 from src.intersection.controller.StreetController import StreetController
@@ -53,6 +54,7 @@ class MainWindow:
 
         clock = pygame.time.Clock()
 
+        # fixed spawn points for buses
         vertical_spawn_points = [(20, 459), (20, 539)]
         horizontal_spawn_points = [(459, 980), (539, 980)]
 
@@ -63,20 +65,24 @@ class MainWindow:
             
             self.street_controller.handle_events()
 
+            # check if control should be switched
             if self.mas_controller.change_control:
                 self.mas_controller.update(elapsed_time)
                 continue
 
-            if elapsed_time > cons.STRAIGHT_GREEN_TIME:
-                self.mas_controller.update(elapsed_time)
+            # reset start time if limit is reached
+            if elapsed_time > cons.STRAIGHT_RED_TIME:
                 self.start_time = time.time()
+            
+            # update agents
+            self.mas_controller.update(elapsed_time)
 
             self.screen.blit(self.background, [0, 0])
 
+            # draw entities
             for view in self.traffic_light_views:  
                 view.draw(self.screen)
                 
             pygame.display.flip()
             clock.tick(cons.FRAME_RATE)
             
-            # time.sleep(1)

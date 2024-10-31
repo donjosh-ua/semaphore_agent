@@ -8,13 +8,10 @@ class Agent:
         self.has_control = control
         self.type = type
         self.current_state = 5
-        self.set_states_number(type)
+        self.states_number = 5
         self.set_state_table(type)
 
-    def set_states_number(self, type: str):
-        self.states_number = 5 if type == "street" else 3
-
-    def set_state_table(self, type: str):
+    def set_state_table(self, type: str) -> None:
         if type == "street":
             self.states_table = {1: ("green", "green"),
                                  2: ("green", "yellow"),
@@ -22,17 +19,19 @@ class Agent:
                                  4: ("yellow", "red"),
                                  5: ("red", "red")}
         else:
-            self.states_table = {1: ("red", "red"),
+            self.states_table = {1: ("red", "green"),
                                  2: ("red", "green"),
-                                 3: ("green", "green")}
+                                 3: ("green", "green"),
+                                 4: ("green", "green"),
+                                 5: ("red", "red")}
 
-    def add_light(self, light: TrafficLight):
+    def add_light(self, light: TrafficLight) -> None:
         self.__lights.append(light)
 
-    def get_lights(self):
+    def get_lights(self) -> list:
         return self.__lights
 
-    def update_state(self):
+    def update_state(self) -> None:
 
         self.current_state = self.current_state + 1 if self.current_state < self.states_number else 1
         
