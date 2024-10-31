@@ -12,6 +12,7 @@ class StreetController:
 
     def __init__(self):
         self.entities = []
+        self.agent_entitites = dict()
         self.create_agents()
 
     def create_agents(self):
@@ -36,7 +37,10 @@ class StreetController:
         vertical_pedestrian_agent.add_light(TrafficLight("horizontal", "pedestrian", x=619, y=420))
         vertical_pedestrian_agent.add_light(TrafficLight("horizontal", "pedestrian", x=380, y=580))
 
-    def add_entity(self, entity):
+    def add_entity(self, entity, name=None):
+        
+        #if name == "horizontal_street_agent":
+        #    self.agent_entitites[entity] = horizontal
         self.entities.append(entity)
     
     def can_move(self, entity):

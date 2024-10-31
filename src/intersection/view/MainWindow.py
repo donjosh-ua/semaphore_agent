@@ -40,15 +40,10 @@ class MainWindow:
         self.street_controller.add_entity(Entity("bus", x=cons.BUS_LENGTH/2, y=459, x_speed=5))
         self.street_controller.add_entity(Entity("bus", x=459, y=cons.SCREEN_SIZE[1]-cons.BUS_LENGTH/2, y_speed=-7, rotation=90))
         
-        #self.street_controller.add_entity(Entity("bus", x=20, y=539, x_speed=10, y_speed=10)) 
-        #self.street_controller.add_entity(Entity("bus", x=20, y=459))  
-        
         # instance of entity bus person
-        #self.street_controller.add_entity(Entity("person", x=20, y=459))
-        #self.street_controller.add_entity(Entity("person", x=20, y=459)) 
-        #self.street_controller.add_entity(Entity("person", x=20, y=459))  
-        
-        
+        #self.street_controller.add_entity(Entity("person", x=420, y=200, x_speed=1))
+        #self.street_controller.add_entity(Entity("person", x=200, y=420, y_speed=1)) 
+
         # create views for traffic lights
         self.traffic_light_views = []
         for agent in self.mas_controller.get_agents():
@@ -67,9 +62,7 @@ class MainWindow:
     def run(self):
 
         clock = pygame.time.Clock()
-        
-        # (459, 980) = (x=459, y=cons.SCREEN_SIZE[1]-cons.BUS_LENGTH/2), (20, 459) = (x=cons.BUS_LENGTH/2, y=459)
-        
+  
         # Spawn points(sp) 
         
         # For bus entities 
@@ -101,10 +94,9 @@ class MainWindow:
             self.screen.blit(self.background, [0, 0])
             
             #draw the views of the entities
-            #print("Total de entidades:", len(self.entity_views))
             for entity in self.street_controller.entities:
-                if 
-                    entity.move()
+                #if 
+                entity.move()
             
             for view in self.entity_views:
                 view.draw(self.screen)
