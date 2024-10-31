@@ -18,6 +18,7 @@ class MasController:
             self.__street_agents = []
             self.__pedestrian_agents = []
             self.__initialized = True
+            self.__states = (0, cons.FIRST_STATE, cons.SECOND_STATE, cons.THIRD_STATE, cons.FOURTH_STATE)
             self.__processed_state = set()
 
     def get_agents(self):
@@ -69,21 +70,20 @@ class MasController:
             pa1.has_control = True
             self.change_control = True
 
-    def update(self, elapsed_time) -> None:        
-        
-        states = (2, 4, 6, 8, 10)
-        elapsed_time = int(elapsed_time)
-    
-        if elapsed_time not in states:
-            return
-        
-        if elapsed_time in self.__processed_state:
-            return
-        
-        if elapsed_time == cons.STRAIGHT_RED_TIME:
-            self.__processed_state.clear()
+    def update(self, elapsed_time) -> None:       
 
+        self.change_control = False 
+        
+        elapsed_time = int(elapsed_time)
+        print(elapsed_time)
+    
+        if elapsed_time not in self.__states or elapsed_time in self.__processed_state:
+            return
+        
         self.__processed_state.add(elapsed_time)
+
+        if elapsed_time == cons.FOURTH_STATE:
+            self.__processed_state.clear()
         
         for agent in self.__agents:
             if agent.has_control:

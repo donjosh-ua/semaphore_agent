@@ -69,12 +69,10 @@ class MainWindow:
             if self.mas_controller.change_control:
                 self.mas_controller.update(elapsed_time)
                 continue
-
-            # reset start time if limit is reached
-            if elapsed_time > cons.STRAIGHT_RED_TIME:
-                self.start_time = time.time()
             
             # update agents
+            if elapsed_time > cons.FOURTH_STATE:
+                self.start_time = time.time()
             self.mas_controller.update(elapsed_time)
 
             self.screen.blit(self.background, [0, 0])

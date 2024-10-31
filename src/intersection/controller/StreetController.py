@@ -1,5 +1,7 @@
 import sys
+import time
 import pygame
+from resources import constants as cons
 from src.intersection.model.TrafficLight import TrafficLight
 from src.agent.controller.MasController import MasController
 
@@ -16,7 +18,6 @@ class StreetController:
         horizontal_street_agent = self.mas.create_agent("street", control=True)
         horizontal_street_agent.add_light(TrafficLight("vertical", "street", x=345, y=459))
         horizontal_street_agent.add_light(TrafficLight("vertical", "street", x=345, y=539))
-        # horizontal_street_agent.update_state()
 
         vertical_street_agent = self.mas.create_agent("street")
         vertical_street_agent.add_light(TrafficLight("horizontal", "street", x=539, y=655))
