@@ -48,25 +48,30 @@ class StreetController:
         It's important the coordenates from trafficLight and entity to coordinate
         This funtion return a list: [boolean can move, boolean if the entity is crossing] # in this version only return [boolean can move, False]
         """
+        
+        print("Tipo:", entity.type)
         if entity.vel_y == 0  and entity.type == "bus":
-            for trafficLight in self.horizontal_street_agent.get_lights():
-                if Traffic.is_same_street(entity.y, trafficLight.y):
-                    return [not (Traffic.is_influenciable(entityCorner=entity.x + cons.BUS_LENGTH/2, trafficLigthCorner=trafficLight.x, velocityEntity=entity.vel_x*cons.TRESHOLD_BUS) and trafficLight.active_color != "green"), False]
-                    
+            
+            semaforo = Traffic.near_entity_trafficLight(self.horizontal_street_agent.get_lights(), entity=entity, coordenate="x")
+            entity.is_moving = not (Traffic.is_influenciable(entity.x + cons.BUS_LENGTH/2, semaforo.x, entity.vel_x*cons.TRESHOLD_BUS) and semaforo.active_color != "green")
+            #Traffic.is_crossing(entity, entityCorner=(entity.x + cons.BUS_LENGTH/2), trafficLigthCorner= semaforo.x, trafficLigthReference= semaforo.y)
+            
         if entity.vel_x == 0  and entity.type == "bus":
-            for trafficLight in self.vertical_street_agent.get_lights(): 
-                if Traffic.is_same_street(entity.x, trafficLight.x):
-                    return [not (Traffic.is_influenciable(entityCorner= -(entity.y - cons.BUS_LENGTH/2), trafficLigthCorner= -trafficLight.y, velocityEntity= -entity.vel_y*cons.TRESHOLD_BUS) and trafficLight.active_color != "green"), False]
+            
+            semaforo = Traffic.near_entity_trafficLight(self.vertical_street_agent.get_lights(), entity=entity, coordenate="y")
+            entity.is_moving = not (Traffic.is_influenciable(-(entity.y - cons.BUS_LENGTH/2), -semaforo.y, -entity.vel_y*cons.TRESHOLD_BUS) and semaforo.active_color != "green")
+            #Traffic.is_crossing(entity, entityCorner=-(entity.y - cons.BUS_LENGTH/2), trafficLigthCorner= -semaforo.y, trafficLigthReference= semaforo.x) 
                 
         if entity.vel_y == 0  and entity.type == "person":
-            for trafficLight in self.horizontal_pedestrian_agent.get_lights(): 
-                if Traffic.is_same_street(entity.y, trafficLight.y):
-                    return [not (Traffic.is_influenciable(entityCorner=entity.x + cons.PERSON_LENGTH/2, trafficLigthCorner=trafficLight.x, velocityEntity=entity.vel_x*cons.TRESHOLD_PERSON) and trafficLight.active_color != "green"), False]
-        
-        if entity.vel_x == 0  and entity.type == "person":
-            for trafficLight in self.vertical_pedestrian_agent.get_lights():
-                if Traffic.is_same_street(entity.x, trafficLight.x):
-                    return [not (Traffic.is_influenciable(entityCorner= -(entity.y + cons.PERSON_LENGTH/2), trafficLigthCorner= -trafficLight.y, velocityEntity= -entity.vel_y*cons.TRESHOLD_BUS) and trafficLight.active_color != "green"), False]
+            semaforo = Traffic.near_entity_trafficLight(self.horizontal_pedestrian_agent.get_lights(), entity=entity, coordenate="x")
+            entity.is_moving = not (Traffic.is_influenciable(entity.x + cons.PERSON_LENGTH/2, semaforo.x, entity.vel_x*cons.TRESHOLD_BUS) and semaforo.active_color != "green")
+            Traffic.is_crossing(entity, entityCorner=(entity.x + cons.PERSON_LENGTH/2), trafficLigthCorner= semaforo.x)
+            
+        if entity.vel_x == 0  and entity.type == "person":     
+            semaforo = Traffic.near_entity_trafficLight(self.vertical_pedestrian_agent.get_lights(), entity=entity, coordenate="y")
+            entity.is_moving = not (Traffic.is_influenciable(-(entity.y - cons.PERSON_LENGTH/2), -semaforo.y, -entity.vel_y*cons.TRESHOLD_BUS) and semaforo.active_color != "green")
+            Traffic.is_crossing(entity, entityCorner=-(entity.y + cons.PERSON_LENGTH/2), trafficLigthCorner= -semaforo.y)
+            
 
     def draw_entities(self, screen):
         for entity in self.entities:

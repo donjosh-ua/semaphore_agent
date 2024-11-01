@@ -37,12 +37,16 @@ class MainWindow:
         self.street_controller = StreetController()
 
         # instance of entity bus type
-        self.street_controller.add_entity(Entity("bus", x=cons.BUS_LENGTH/2, y=459, x_speed=6))
-        self.street_controller.add_entity(Entity("bus", x=459, y=cons.SCREEN_SIZE[1]-cons.BUS_LENGTH/2, y_speed=-7, rotation=90))
+        self.street_controller.add_entity(Entity("bus", x=cons.BUS_LENGTH/2, y=459, x_speed=7))
+        #self.street_controller.add_entity(Entity("bus", x=300, y=539, x_speed=2))
+        
+        self.street_controller.add_entity(Entity("bus", x=539, y=cons.SCREEN_SIZE[1]-cons.BUS_LENGTH/2, y_speed=-7, rotation=90))
+        #self.street_controller.add_entity(Entity("bus", x=800, y=cons.SCREEN_SIZE[1]-cons.BUS_LENGTH/2, y_speed=-0, rotation=0))
+        
         
         # instance of entity person type
-        self.street_controller.add_entity(Entity("person", x=420, y=380, x_speed=10))
-        self.street_controller.add_entity(Entity("person", x=619, y=cons.SCREEN_SIZE[1]-cons.PEDESTRIAN_LIGHT_LENGTH/2 ,y_speed=-20))
+        self.street_controller.add_entity(Entity("person", x=cons.PERSON_LENGTH/2, y=380, x_speed=3))
+        self.street_controller.add_entity(Entity("person", x=619, y=cons.SCREEN_SIZE[1]-cons.PEDESTRIAN_LIGHT_LENGTH/2 ,y_speed=-3))
         
         # create views for traffic lights
         self.traffic_light_views = []
@@ -84,7 +88,11 @@ class MainWindow:
             
             #draw the views of the entities
             for entity in self.street_controller.entities:
-                entity.is_moving, entity.is_crossing = self.street_controller.can_move(entity)
+                #entity.is_moving = self.street_controller.can_move(entity)
+                self.street_controller.can_move(entity)
+                print(entity.is_moving, entity.is_crossing, sep="|")
+                
+                
                 entity.move()
             
             for view in self.entity_views:
