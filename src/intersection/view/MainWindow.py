@@ -80,7 +80,6 @@ class MainWindow:
                 continue
             
             if elapsed_time > cons.FOURTH_STATE:
-                self.mas_controller.update(elapsed_time)
                 self.start_time = time.time()
             self.mas_controller.update(elapsed_time)
 
