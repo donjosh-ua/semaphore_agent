@@ -81,6 +81,7 @@ class MainWindow:
             
             if elapsed_time > cons.FOURTH_STATE:
                 self.start_time = time.time()
+            
             self.mas_controller.update(elapsed_time)
 
             self.screen.blit(self.background, [0, 0])
