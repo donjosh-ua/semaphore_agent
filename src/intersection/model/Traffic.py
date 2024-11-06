@@ -6,7 +6,7 @@ class Traffic:
         
     @staticmethod
     def __is_near(entityCorner, trafficLigthCorner, velocityEntity):
-        print("Is near?,", entityCorner + velocityEntity, trafficLigthCorner)
+        #print("Is near?,", entityCorner + velocityEntity, trafficLigthCorner)
         if entityCorner < trafficLigthCorner:
             return (entityCorner + velocityEntity) > trafficLigthCorner
         else: 
@@ -14,7 +14,7 @@ class Traffic:
         
     @staticmethod
     def __is_before(entityCorner, trafficLigthCorner):
-        print("Is before?,", entityCorner - trafficLigthCorner)
+        #print("Is before?,", entityCorner - trafficLigthCorner)
         return (entityCorner - trafficLigthCorner) <= 0
     
     @staticmethod
@@ -37,7 +37,7 @@ class Traffic:
                     entity.change_direction = "left"
                 
         
-        print("Change right?:", entity.change_direction)
+        #print("Change direction?:", entity.change_direction)
     
     @staticmethod
     def near_entity_trafficLight(trafficLights:list, entity, coordenate="x"):

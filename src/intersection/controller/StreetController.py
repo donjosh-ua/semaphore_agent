@@ -54,13 +54,13 @@ class StreetController:
             
             semaforo = Traffic.near_entity_trafficLight(self.horizontal_street_agent.get_lights(), entity=entity, coordenate="x")
             entity.is_moving = not (Traffic.is_influenciable(entity.x + cons.BUS_LENGTH/2, semaforo.x, entity.vel_x*cons.TRESHOLD_BUS) and semaforo.active_color != "green")
-            #Traffic.is_crossing(entity, entityCorner=(entity.x + cons.BUS_LENGTH/2), trafficLigthCorner= semaforo.x, trafficLigthReference= semaforo.y)
+            Traffic.is_crossing(entity, entityCorner=(entity.x + cons.BUS_LENGTH/2), trafficLigthCorner= semaforo.x, trafficLigthReference= semaforo.y)
             
         if entity.vel_x == 0  and entity.type == "bus":
             
             semaforo = Traffic.near_entity_trafficLight(self.vertical_street_agent.get_lights(), entity=entity, coordenate="y")
             entity.is_moving = not (Traffic.is_influenciable(-(entity.y - cons.BUS_LENGTH/2), -semaforo.y, -entity.vel_y*cons.TRESHOLD_BUS) and semaforo.active_color != "green")
-            #Traffic.is_crossing(entity, entityCorner=-(entity.y - cons.BUS_LENGTH/2), trafficLigthCorner= -semaforo.y, trafficLigthReference= semaforo.x) 
+            Traffic.is_crossing(entity, entityCorner=-(entity.y - cons.BUS_LENGTH/2), trafficLigthCorner= -semaforo.y, trafficLigthReference= semaforo.x) 
                 
         if entity.vel_y == 0  and entity.type == "person":
             semaforo = Traffic.near_entity_trafficLight(self.horizontal_pedestrian_agent.get_lights(), entity=entity, coordenate="x")

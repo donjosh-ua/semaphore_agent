@@ -7,6 +7,7 @@ borrar_modelo.py
 borrar_vista.py
 borrar_controlador.py
 traffic_view.py
+default.png
 # *.png
 # C extensions
 *.so

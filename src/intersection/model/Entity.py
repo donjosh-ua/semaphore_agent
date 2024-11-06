@@ -23,6 +23,9 @@ class Entity:
         """
         Initializes the entity with the given parameters.
         """
+        self.initial_spawn= (x,y)
+        cons.LIST_SPAWN_POSICION.append(self.initial_spawn)
+        
         self.x = x
         self.y = y
         self.type = type
@@ -57,6 +60,7 @@ class Entity:
         else:
             self.image_path = self.__person_paths[0]
 
+
     def get_image_path(self) -> str:
         """
         Returns the image path of the entity.
@@ -67,13 +71,11 @@ class Entity:
         """
         Moves the entity and handles boundary collisions.
         """
-        
-        #if self.change_right:
-            #print(f"vx:{self.__move_curve()}, vy:{self.vel_y}")
-        #    self.__move_curve()
+        print("Velocidad en y:", self.vel_y, "| Velocidad en x:", self.vel_x)
         
         if self.change_direction != None and not self.is_changin:
-            self.__move_curve(self.change_direction)
+            #self.__move_curve(self.change_direction)
+            self.is_changin = True
         
         if self.is_moving or self.is_crossing:
             self.x += self.vel_x
@@ -86,7 +88,7 @@ class Entity:
             if self.change_direction == "right" and self.is_changin:
                 #print("Entra")
                 if abs(self.y - 539) <= 7:
-                    print("Finaliza movimiento")
+                    #print("Finaliza movimiento")
                     self.y = 539
                     self.vel_y = 0
                     self.vel_x = 7
@@ -103,7 +105,7 @@ class Entity:
             if self.change_direction == "left" and self.is_changin:
                 #print("Entra")
                 if abs(459 -self.x) <= 7:
-                    print("Finaliza movimiento")
+                    #print("Finaliza movimiento")
                     self.x = 459
                     self.vel_y = -7
                     self.vel_x = 0
@@ -116,17 +118,6 @@ class Entity:
                     self.image_size = (cons.BUS_LENGTH, cons.BUS_WIDTH)
                     self.image = self.__load_image()
                     self.rect = self.image.get_rect(center=(self.x, self.y))
-                    
-                
-                #self.__move_curve(self.change_direction)
-                #dt = -9
-                
-                #a = 4
-                #self.vel_x = (261 - a*(dt**2))/dt
-
-                #theta = math.degrees(math.atan((self.y + self.vel_y)/(self.x + self.vel_x)))
-                #print(f"El ángulo es: {theta} grados")
-                
                 
             # Bounce the entity if it hits the screen boundaries
             if self.rect.right >= cons.SCREEN_SIZE[0] or self.rect.left <= 0: 
@@ -143,7 +134,7 @@ class Entity:
                 
             dt = -9
             a = 4
-            self.vel_x = ((261 - a*(dt**2))/dt)*((2)**2)/6
+            self.vel_x = ((261 - a*(dt**2))/dt)*((2)**2)/14
             self.vel_y = (self.vel_y)*((2)**2)/6
             self.is_changin = True
             
@@ -155,26 +146,32 @@ class Entity:
             self.vel_x = (self.vel_x)*((2)**2)/6
             self.is_changin = True
         
-            
-            
-            
-        #theta = math.degrees(math.atan((self.y + self.vel_y)/(self.x + self.vel_x)))
-            
-        #print(f"El ángulo es: {theta} grados")
-            
-            
-        #return (261 - a*(dt**2))/dt
-        
     
     def __respaw(self, posicion):
         self.__reset_flags()
         
         # randomize posicion
         spawnValues = cons.SPAWN_POSICION[posicion][self.type]
-        self.rect.center = spawnValues[random.randint(0, 1)]
+        
+        index = random.randint(0, 1)
+        
+        
+        # It does the enties don´t spawn in the same posición
+        if spawnValues[index] not in cons.LIST_SPAWN_POSICION:
+            self.rect.center = spawnValues[index]
+        else:
+            self.rect.center = spawnValues[int(abs(index-1))]
+        
+
         self.x, self.y = self.rect.center
         
+        # remove the before spawn position to new spawn positon 
+        # because the other entities could use that spawn position
+        cons.LIST_SPAWN_POSICION.remove(self.initial_spawn)
         
+        # add the new spawn posicion
+        self.initial_spawn = (self.x, self.y)
+        cons.LIST_SPAWN_POSICION.append(self.initial_spawn)
         
         # randomize image
         self.__set_image_path(self.type)
@@ -182,7 +179,7 @@ class Entity:
         
         self.image = self.__load_image()
         
-        self.ver_atributos()
+        #self.ver_atributos()
     
     def __reset_flags(self):
         self.is_moving = True
@@ -204,8 +201,8 @@ class Entity:
         print("changed:", self.changed)
         print("change_direction:", self.change_direction)
         print("is_changin:", self.is_changin)
-        print("image_path:", self.__set_image_path(type))
-        print("image_size:", self.__set_image_size(type))
+        print("image_path:", self.image_path)
+        print("image_size:", self.image_size)
         print("image:", self.image)
         print("rect:", self.rect)
         
